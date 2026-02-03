@@ -1,0 +1,168 @@
+{
+  "repos": [
+    {
+      "id": "r001",
+      "name": "payment-auth",
+      "description": "Authentication service for payment flows",
+      "language": "TypeScript",
+      "serviceIds": ["s001"],
+      "owningTeamId": "t001",
+      "complexityScore": 78,
+      "cyclomaticComplexity": 245,
+      "dependencyDepth": 8,
+      "fanIn": 47,
+      "fanOut": 23,
+      "testCoverage": 82,
+      "techDebtScore": 15,
+      "contributors": [
+        { "personId": "p001", "commitPercentage": 31, "isCodeOwner": false },
+        { "personId": "p003", "commitPercentage": 42, "isCodeOwner": true },
+        { "personId": "p002", "commitPercentage": 15, "isCodeOwner": false },
+        { "personId": "p004", "commitPercentage": 12, "isCodeOwner": false }
+      ],
+      "recentChanges": {
+        "last30Days": { "commits": 45, "prs": 18, "avgComplexityDelta": -2.3 },
+        "last90Days": { "commits": 156, "prs": 62, "avgComplexityDelta": -5.1 }
+      }
+    },
+    {
+      "id": "r002",
+      "name": "payment-auth-sdk",
+      "description": "Client SDK for payment-auth service",
+      "language": "TypeScript",
+      "serviceIds": ["s001"],
+      "owningTeamId": "t001",
+      "complexityScore": 35,
+      "cyclomaticComplexity": 85,
+      "dependencyDepth": 3,
+      "fanIn": 120,
+      "fanOut": 5,
+      "testCoverage": 91,
+      "techDebtScore": 8,
+      "contributors": [
+        { "personId": "p001", "commitPercentage": 55, "isCodeOwner": true },
+        { "personId": "p003", "commitPercentage": 30, "isCodeOwner": false },
+        { "personId": "p002", "commitPercentage": 15, "isCodeOwner": false }
+      ],
+      "recentChanges": {
+        "last30Days": { "commits": 12, "prs": 5, "avgComplexityDelta": -1.2 },
+        "last90Days": { "commits": 38, "prs": 15, "avgComplexityDelta": -2.8 }
+      }
+    },
+    {
+      "id": "r003",
+      "name": "payment-processor",
+      "description": "Core payment processing engine",
+      "language": "Java",
+      "serviceIds": ["s002"],
+      "owningTeamId": "t001",
+      "complexityScore": 85,
+      "cyclomaticComplexity": 420,
+      "dependencyDepth": 12,
+      "fanIn": 62,
+      "fanOut": 35,
+      "testCoverage": 78,
+      "techDebtScore": 22,
+      "contributors": [
+        { "personId": "p003", "commitPercentage": 48, "isCodeOwner": true },
+        { "personId": "p001", "commitPercentage": 28, "isCodeOwner": false },
+        { "personId": "p002", "commitPercentage": 24, "isCodeOwner": false }
+      ],
+      "recentChanges": {
+        "last30Days": { "commits": 28, "prs": 12, "avgComplexityDelta": 1.5 },
+        "last90Days": { "commits": 95, "prs": 42, "avgComplexityDelta": -0.8 }
+      }
+    },
+    {
+      "id": "r004",
+      "name": "fraud-gateway",
+      "description": "Gateway for fraud detection integration",
+      "language": "Go",
+      "serviceIds": ["s003"],
+      "owningTeamId": "t001",
+      "complexityScore": 65,
+      "cyclomaticComplexity": 180,
+      "dependencyDepth": 6,
+      "fanIn": 28,
+      "fanOut": 18,
+      "testCoverage": 75,
+      "techDebtScore": 18,
+      "contributors": [
+        { "personId": "p001", "commitPercentage": 45, "isCodeOwner": true },
+        { "personId": "p003", "commitPercentage": 35, "isCodeOwner": false },
+        { "personId": "p004", "commitPercentage": 20, "isCodeOwner": false }
+      ],
+      "recentChanges": {
+        "last30Days": { "commits": 22, "prs": 8, "avgComplexityDelta": 0.5 },
+        "last90Days": { "commits": 68, "prs": 28, "avgComplexityDelta": -1.2 }
+      }
+    },
+    {
+      "id": "r005",
+      "name": "fraud-ml-engine",
+      "description": "ML inference engine for fraud detection",
+      "language": "Python",
+      "serviceIds": ["s004"],
+      "owningTeamId": "t002",
+      "complexityScore": 92,
+      "cyclomaticComplexity": 380,
+      "dependencyDepth": 15,
+      "fanIn": 15,
+      "fanOut": 42,
+      "testCoverage": 68,
+      "techDebtScore": 28,
+      "contributors": [
+        { "personId": "p007", "commitPercentage": 72, "isCodeOwner": true }
+      ],
+      "recentChanges": {
+        "last30Days": { "commits": 35, "prs": 14, "avgComplexityDelta": 2.1 },
+        "last90Days": { "commits": 112, "prs": 48, "avgComplexityDelta": 1.5 }
+      }
+    },
+    {
+      "id": "r006",
+      "name": "fraud-ml-models",
+      "description": "ML model training and management",
+      "language": "Python",
+      "serviceIds": ["s004"],
+      "owningTeamId": "t002",
+      "complexityScore": 78,
+      "cyclomaticComplexity": 290,
+      "dependencyDepth": 10,
+      "fanIn": 8,
+      "fanOut": 25,
+      "testCoverage": 72,
+      "techDebtScore": 20,
+      "contributors": [
+        { "personId": "p007", "commitPercentage": 85, "isCodeOwner": true }
+      ],
+      "recentChanges": {
+        "last30Days": { "commits": 18, "prs": 7, "avgComplexityDelta": 0.8 },
+        "last90Days": { "commits": 62, "prs": 25, "avgComplexityDelta": 0.2 }
+      }
+    },
+    {
+      "id": "r007",
+      "name": "fraud-rules-service",
+      "description": "Configurable rules engine for fraud policies",
+      "language": "Java",
+      "serviceIds": ["s005"],
+      "owningTeamId": "t002",
+      "complexityScore": 45,
+      "cyclomaticComplexity": 120,
+      "dependencyDepth": 4,
+      "fanIn": 8,
+      "fanOut": 12,
+      "testCoverage": 85,
+      "techDebtScore": 10,
+      "contributors": [
+        { "personId": "p007", "commitPercentage": 65, "isCodeOwner": true }
+      ],
+      "recentChanges": {
+        "last30Days": { "commits": 8, "prs": 3, "avgComplexityDelta": -0.5 },
+        "last90Days": { "commits": 28, "prs": 12, "avgComplexityDelta": -1.8 }
+      }
+    }
+  ]
+}
+

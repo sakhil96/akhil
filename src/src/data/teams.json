@@ -1,0 +1,45 @@
+{
+  "teams": [
+    {
+      "id": "t001",
+      "name": "Payments Platform",
+      "description": "Core payment processing and authentication services",
+      "managerId": "p005",
+      "departmentId": "d001",
+      "memberIds": ["p001", "p002", "p003", "p004", "p005", "p006", "p009"],
+      "serviceIds": ["s001", "s002", "s003"],
+      "openReqs": 2,
+      "createdAt": "2018-01-15"
+    },
+    {
+      "id": "t002",
+      "name": "Fraud Detection",
+      "description": "Machine learning-based fraud prevention systems",
+      "managerId": "p008",
+      "departmentId": "d001",
+      "memberIds": ["p007", "p008"],
+      "serviceIds": ["s004", "s005"],
+      "openReqs": 3,
+      "createdAt": "2019-03-20"
+    },
+    {
+      "id": "t003",
+      "name": "Payments Engineering",
+      "description": "Engineering organization for all payments systems",
+      "managerId": "p010",
+      "departmentId": "d001",
+      "memberIds": ["p010", "p011"],
+      "serviceIds": [],
+      "openReqs": 0,
+      "createdAt": "2015-01-01"
+    }
+  ],
+  "departments": [
+    {
+      "id": "d001",
+      "name": "Payments Engineering",
+      "vpId": "p010"
+    }
+  ]
+}
+

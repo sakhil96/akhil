@@ -1,0 +1,175 @@
+{
+  "pullRequests": [
+    {
+      "id": "pr001",
+      "repoId": "r001",
+      "number": 4521,
+      "title": "Refactor auth token validation for improved security",
+      "authorId": "p001",
+      "reviewerIds": ["p003", "p007"],
+      "status": "merged",
+      "filesChanged": 12,
+      "additions": 450,
+      "deletions": 380,
+      "complexityDelta": -15,
+      "reviewCommentsCount": 8,
+      "createdAt": "2024-11-15T09:30:00Z",
+      "mergedAt": "2024-11-18T14:20:00Z",
+      "cycleTimeDays": 3.2
+    },
+    {
+      "id": "pr002",
+      "repoId": "r001",
+      "number": 4892,
+      "title": "Reduce payment-auth cold start latency",
+      "authorId": "p001",
+      "reviewerIds": ["p003"],
+      "status": "merged",
+      "filesChanged": 8,
+      "additions": 280,
+      "deletions": 120,
+      "complexityDelta": -8,
+      "reviewCommentsCount": 5,
+      "createdAt": "2024-11-22T11:00:00Z",
+      "mergedAt": "2024-11-25T10:15:00Z",
+      "cycleTimeDays": 2.9,
+      "impact": "Reduced latency by 23%"
+    },
+    {
+      "id": "pr003",
+      "repoId": "r004",
+      "number": 5102,
+      "title": "Add circuit breaker to fraud-gateway",
+      "authorId": "p001",
+      "reviewerIds": ["p003", "p007"],
+      "status": "merged",
+      "filesChanged": 6,
+      "additions": 320,
+      "deletions": 45,
+      "complexityDelta": 5,
+      "reviewCommentsCount": 12,
+      "createdAt": "2024-12-01T08:45:00Z",
+      "mergedAt": "2024-12-05T16:30:00Z",
+      "cycleTimeDays": 4.3,
+      "impact": "Improved resilience"
+    }
+  ],
+  "tickets": [
+    {
+      "id": "t001",
+      "key": "PAY-1234",
+      "summary": "Implement token rotation for auth service",
+      "type": "story",
+      "assigneeId": "p001",
+      "storyPoints": 8,
+      "status": "done",
+      "sprint": "2024-Q4-S3",
+      "createdAt": "2024-11-01T10:00:00Z",
+      "completedAt": "2024-11-15T16:00:00Z",
+      "reopened": false
+    },
+    {
+      "id": "t002",
+      "key": "PAY-1245",
+      "summary": "Fix race condition in payment processor",
+      "type": "bug",
+      "assigneeId": "p001",
+      "storyPoints": 5,
+      "status": "done",
+      "sprint": "2024-Q4-S3",
+      "createdAt": "2024-11-08T14:30:00Z",
+      "completedAt": "2024-11-12T11:00:00Z",
+      "reopened": false
+    },
+    {
+      "id": "t003",
+      "key": "PAY-1267",
+      "summary": "Reduce technical debt in auth-validator",
+      "type": "tech_debt",
+      "assigneeId": "p001",
+      "storyPoints": 13,
+      "status": "done",
+      "sprint": "2024-Q4-S4",
+      "createdAt": "2024-11-18T09:00:00Z",
+      "completedAt": "2024-11-29T15:00:00Z",
+      "reopened": false
+    }
+  ],
+  "incidents": [
+    {
+      "id": "inc001",
+      "serviceId": "s001",
+      "title": "Payment auth service elevated error rate",
+      "severity": "SEV-2",
+      "status": "resolved",
+      "responderIds": ["p001", "p003", "p005"],
+      "startedAt": "2024-11-25T03:15:00Z",
+      "resolvedAt": "2024-11-25T03:38:00Z",
+      "mttrMinutes": 23,
+      "rootCause": "Database connection pool exhaustion",
+      "postMortemCompleted": true,
+      "actionItemsCompleted": 3,
+      "actionItemsTotal": 3
+    },
+    {
+      "id": "inc002",
+      "serviceId": "s002",
+      "title": "Payment processor latency spike",
+      "severity": "SEV-3",
+      "status": "resolved",
+      "responderIds": ["p003"],
+      "startedAt": "2024-10-12T14:22:00Z",
+      "resolvedAt": "2024-10-12T14:37:00Z",
+      "mttrMinutes": 15,
+      "rootCause": "Downstream service degradation",
+      "postMortemCompleted": true,
+      "actionItemsCompleted": 2,
+      "actionItemsTotal": 2
+    }
+  ],
+  "reviews": [
+    {
+      "id": "rev001",
+      "prId": "pr001",
+      "reviewerId": "p003",
+      "state": "approved",
+      "commentsCount": 5,
+      "qualityScore": 4.5,
+      "submittedAt": "2024-11-17T10:30:00Z",
+      "responseTimeHours": 4.2
+    },
+    {
+      "id": "rev002",
+      "prId": "pr002",
+      "reviewerId": "p003",
+      "state": "approved",
+      "commentsCount": 3,
+      "qualityScore": 4.8,
+      "submittedAt": "2024-11-24T09:15:00Z",
+      "responseTimeHours": 2.1
+    }
+  ],
+  "dataSources": {
+    "p001": {
+      "github": {
+        "prsAuthored": 156,
+        "reviewsGiven": 312,
+        "reposTouched": 8,
+        "lastSync": "2024-12-08T06:00:00Z"
+      },
+      "jira": {
+        "storiesCompleted": 47,
+        "bugsFixed": 12,
+        "techDebtItems": 5,
+        "lastSync": "2024-12-08T06:00:00Z"
+      },
+      "datadog": {
+        "servicesOwned": 3,
+        "sloAdherence": 99.94,
+        "incidentsResponded": 2,
+        "lastSync": "2024-12-08T06:00:00Z"
+      }
+    }
+  }
+}
+
