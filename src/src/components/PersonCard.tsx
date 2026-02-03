@@ -1,7 +1,7 @@
 'use client';
 
 import type { Person, Score } from '@/types';
-import { cn, getRoleIcon, getRoleLabel, getScoreBarColor } from '@/lib/utils';
+import { cn, getRoleLabel, getScoreBarColor } from '@/lib/utils';
 import Link from 'next/link';
 import { ScoreBar } from './ScoreBar';
 
