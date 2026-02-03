@@ -30,7 +30,11 @@ export default function HomePage() {
               <p className="hero-body">{site.hero.subheadline}</p>
               <div className="badge-row">
                 {site.hero.badges.map((badge) => (
-                  <Badge key={badge.label} label={badge.label} tone={badge.tone} />
+                  <Badge
+                    key={badge.label}
+                    label={badge.label}
+                    tone={badge.tone ?? 'accent'}
+                  />
                 ))}
               </div>
             </div>
