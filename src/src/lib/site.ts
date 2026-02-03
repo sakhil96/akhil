@@ -46,7 +46,7 @@ export const site = {
       { label: 'AI Adapt Hackathon Winner', tone: 'success' },
       { label: 'PayPal × Google Cloud Summit', tone: 'muted' },
       { label: 'Top ___', tone: 'warning' },
-    ],
+    ] satisfies SiteBadge[],
   },
   sections: [
     { id: 'system', label: 'System Snapshot' },
