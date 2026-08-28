@@ -15,6 +15,9 @@ export function Navbar() {
           {site.profile.name}
         </Link>
         <nav className="nav-links">
+          <Link href="/jobs" className="nav-link">
+            Jobs
+          </Link>
           {site.sections.map((section) => (
             <Link key={section.id} href={`/#${section.id}`} className="nav-link">
               {section.label}
