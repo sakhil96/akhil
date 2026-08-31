@@ -66,7 +66,8 @@ export async function POST(request: Request) {
           }
 
           send({ done: true, mode: 'llm', provider });
-        } catch {
+        } catch (error) {
+          console.error('[chat] NVIDIA uplink failed', error);
           const fallback = sanitizeResponse(
             generateFallbackReply(lastMessage.content, messages.slice(0, -1)),
           );

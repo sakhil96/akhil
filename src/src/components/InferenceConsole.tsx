@@ -34,13 +34,25 @@ function renderContent(content: string): ReactNode {
 }
 
 export function InferenceConsole({ variant = 'embedded', className }: InferenceConsoleProps) {
-  const { messages, loading, mode, latencyMs, suggestions, history, send, clear } = useConsole();
-  const [open, setOpen] = useState(variant === 'embedded');
+  const {
+    messages,
+    loading,
+    mode,
+    latencyMs,
+    suggestions,
+    history,
+    send,
+    clear,
+    dockOpen,
+    closeDock,
+    toggleDock,
+  } = useConsole();
   const [input, setInput] = useState('');
   const [historyIndex, setHistoryIndex] = useState(-1);
   const [autocompleteOpen, setAutocompleteOpen] = useState(false);
   const endRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const open = variant === 'embedded' || dockOpen;
 
   const matches = useMemo(() => {
     const query = input.trim().toLowerCase();
@@ -55,8 +67,9 @@ export function InferenceConsole({ variant = 'embedded', className }: InferenceC
   }, [messages, loading]);
 
   useEffect(() => {
-    if (variant === 'embedded') {
-      inputRef.current?.focus();
+    if (open) {
+      const timer = window.setTimeout(() => inputRef.current?.focus(), 80);
+      return () => window.clearTimeout(timer);
     }
   }, [variant, open]);
 
@@ -94,7 +107,7 @@ export function InferenceConsole({ variant = 'embedded', className }: InferenceC
     }
     if (event.key === 'Escape') {
       setAutocompleteOpen(false);
-      if (variant === 'dock') setOpen(false);
+      if (variant === 'dock') closeDock();
     }
     if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'l') {
       event.preventDefault();
@@ -104,7 +117,7 @@ export function InferenceConsole({ variant = 'embedded', className }: InferenceC
 
   const panel = (
     <div
-      className={cn('terminal font-mono console-shell', className)}
+      className={cn('terminal font-mono console-shell scanlines', className)}
       onClick={() => inputRef.current?.focus()}
       role="region"
       aria-label="Inference console"
@@ -114,9 +127,9 @@ export function InferenceConsole({ variant = 'embedded', className }: InferenceC
         <span className="terminal-dot" style={{ background: 'var(--warning)' }} />
         <span className="terminal-dot" style={{ background: 'var(--accent)' }} />
         <span>akhil://inference-console</span>
-        <span className="console-mode">{mode === 'idle' ? 'ready' : mode}</span>
+        <span className="console-mode">{mode === 'ready' ? 'ready' : mode}</span>
         {variant === 'dock' && (
-          <button type="button" className="console-close" onClick={() => setOpen(false)}>
+          <button type="button" className="console-close" onClick={closeDock}>
             close
           </button>
         )}
@@ -125,15 +138,25 @@ export function InferenceConsole({ variant = 'embedded', className }: InferenceC
       <div className="terminal-body">
         <div className="console-messages">
           {messages.map((message) => (
-            <div key={message.id} className={message.role === 'user' ? 'console-user' : 'console-bot'}>
+            <div
+              key={message.id}
+              className={cn(
+                'console-line',
+                message.role === 'user' ? 'console-user' : 'console-bot',
+              )}
+            >
               {message.role === 'user' ? (
                 <>
                   <span className="text-accent">{site.terminal.prompt}</span> $ {message.content}
                 </>
               ) : (
                 <span style={{ whiteSpace: 'pre-wrap' }}>
-                  {message.content ? renderContent(message.content) : loading ? (
-                    <span className="console-caret">querying uplink</span>
+                  {message.content ? (
+                    renderContent(message.content)
+                  ) : loading ? (
+                    <span className="console-thinking">
+                      querying NVIDIA uplink<span className="console-ellipsis" />
+                    </span>
                   ) : null}
                   {loading && message.content && message.id === messages[messages.length - 1]?.id ? (
                     <span className="console-caret">▍</span>
@@ -220,11 +243,12 @@ export function InferenceConsole({ variant = 'embedded', className }: InferenceC
       {open && <div className="dock-panel">{panel}</div>}
       <button
         type="button"
-        className="chat-fab"
-        onClick={() => setOpen((value) => !value)}
-        aria-label={open ? 'Close console' : 'Open console'}
+        className={cn('chat-fab', open && 'is-open')}
+        onClick={toggleDock}
+        aria-label={open ? 'Close console' : 'Ask Akhil'}
       >
-        {open ? '×' : 'CMD'}
+        <span className="chat-fab-ring" aria-hidden />
+        {open ? 'CLOSE' : 'ASK'}
       </button>
     </>
   );

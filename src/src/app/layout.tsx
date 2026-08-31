@@ -2,9 +2,7 @@ import type { Metadata } from 'next';
 import { Inter, Space_Grotesk, JetBrains_Mono } from 'next/font/google';
 import { AppChrome } from '@/components/AppChrome';
 import { CommandPalette } from '@/components/CommandPalette';
-import { Navbar } from '@/components/Navbar';
 import { SignalBackground } from '@/components/SignalBackground';
-import { StatusTicker } from '@/components/StatusTicker';
 import { site } from '@/lib/site';
 import './globals.css';
 
@@ -57,8 +55,6 @@ export default function RootLayout({
         <div className="fixed inset-0 -z-10 grid-surface opacity-30" aria-hidden />
         <SignalBackground />
         <CommandPalette />
-        <Navbar />
-        <StatusTicker />
         <AppChrome>{children}</AppChrome>
       </body>
     </html>

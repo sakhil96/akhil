@@ -4,6 +4,7 @@ import {
   createContext,
   useCallback,
   useContext,
+  useEffect,
   useMemo,
   useState,
   type ReactNode,
@@ -23,6 +24,10 @@ type ConsoleContextValue = {
   latencyMs: number | null;
   suggestions: string[];
   history: string[];
+  dockOpen: boolean;
+  openDock: () => void;
+  closeDock: () => void;
+  toggleDock: () => void;
   send: (text: string) => Promise<void>;
   clear: () => void;
 };
@@ -37,7 +42,7 @@ const WELCOME: ConsoleMessage = {
   id: 'welcome',
   role: 'assistant',
   content:
-    'Console live — ask anything about Akhil. Natural language works. Shortcuts: help · whoami · wins · paypal · stack · contact · clear. Arrow-up recalls the last query.',
+    'Uplink live on NVIDIA Kimi K3. Ask anything about Akhil — PayPal, SmartWealth, Cursor wins, stack, fit. Shortcuts: help · whoami · wins · paypal · stack · contact · clear.',
 };
 
 function followUpsFor(query: string): string[] {
@@ -63,14 +68,32 @@ function followUpsFor(query: string): string[] {
 export function ConsoleProvider({ children }: { children: ReactNode }) {
   const [messages, setMessages] = useState<ConsoleMessage[]>([WELCOME]);
   const [loading, setLoading] = useState(false);
-  const [mode, setMode] = useState('idle');
+  const [mode, setMode] = useState('ready');
   const [latencyMs, setLatencyMs] = useState<number | null>(null);
   const [suggestions, setSuggestions] = useState<string[]>(CHAT_SUGGESTIONS);
   const [history, setHistory] = useState<string[]>([]);
+  const [dockOpen, setDockOpen] = useState(false);
+
+  const openDock = useCallback(() => setDockOpen(true), []);
+  const closeDock = useCallback(() => setDockOpen(false), []);
+  const toggleDock = useCallback(() => setDockOpen((value) => !value), []);
+
+  useEffect(() => {
+    const onOpen = () => setDockOpen(true);
+    window.addEventListener('console-open', onOpen);
+    return () => window.removeEventListener('console-open', onOpen);
+  }, []);
+
+  useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (window.innerWidth < 900) return;
+    const timer = window.setTimeout(() => setDockOpen(true), 1100);
+    return () => window.clearTimeout(timer);
+  }, []);
 
   const clear = useCallback(() => {
     setMessages([WELCOME]);
-    setMode('idle');
+    setMode('ready');
     setLatencyMs(null);
     setSuggestions(CHAT_SUGGESTIONS);
   }, []);
@@ -95,6 +118,7 @@ export function ConsoleProvider({ children }: { children: ReactNode }) {
       { id: assistantId, role: 'assistant', content: '' },
     ]);
     setLoading(true);
+    setMode('querying');
     setSuggestions(followUpsFor(trimmed));
     const started = performance.now();
 
@@ -144,9 +168,11 @@ export function ConsoleProvider({ children }: { children: ReactNode }) {
             const json = JSON.parse(line.slice(5).trim()) as {
               delta?: string;
               mode?: string;
+              provider?: string;
               done?: boolean;
             };
-            if (json.mode) setMode(json.mode);
+            if (json.provider) setMode(json.provider);
+            else if (json.mode) setMode(json.mode);
             if (json.delta) {
               assembled += json.delta;
               const snapshot = assembled;
@@ -184,8 +210,34 @@ export function ConsoleProvider({ children }: { children: ReactNode }) {
   }, [clear, loading, messages]);
 
   const value = useMemo(
-    () => ({ messages, loading, mode, latencyMs, suggestions, history, send, clear }),
-    [messages, loading, mode, latencyMs, suggestions, history, send, clear],
+    () => ({
+      messages,
+      loading,
+      mode,
+      latencyMs,
+      suggestions,
+      history,
+      dockOpen,
+      openDock,
+      closeDock,
+      toggleDock,
+      send,
+      clear,
+    }),
+    [
+      messages,
+      loading,
+      mode,
+      latencyMs,
+      suggestions,
+      history,
+      dockOpen,
+      openDock,
+      closeDock,
+      toggleDock,
+      send,
+      clear,
+    ],
   );
 
   return <ConsoleContext.Provider value={value}>{children}</ConsoleContext.Provider>;

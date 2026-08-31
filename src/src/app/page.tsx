@@ -4,6 +4,7 @@ import { Card } from '@/components/Card';
 import { CTAButton } from '@/components/CTAButton';
 import { ControlHud } from '@/components/ControlHud';
 import { CopyButton } from '@/components/CopyButton';
+import { HeroAsk } from '@/components/HeroAsk';
 import { InferenceConsole } from '@/components/InferenceConsole';
 import { Reveal } from '@/components/Reveal';
 import { SectionHeading } from '@/components/SectionHeading';
@@ -41,8 +42,8 @@ export default function HomePage() {
               </div>
               <div className="stack-md">
                 <h1 className="hero-title">
-                  {site.profile.name}
-                  <span className="text-gradient" style={{ display: 'block' }}>
+                  <span className="hero-name">{site.profile.name}</span>
+                  <span className="text-gradient hero-headline" style={{ display: 'block' }}>
                     {site.hero.headline}
                   </span>
                 </h1>
@@ -62,6 +63,7 @@ export default function HomePage() {
                 <CTAButton href="#console" label="Open inference console" />
                 <CTAButton href="#contact" label="Get in touch" variant="ghost" />
               </div>
+              <HeroAsk />
             </div>
             <ControlHud />
           </div>
@@ -96,9 +98,9 @@ export default function HomePage() {
 
         <section id="console" className="section-tight">
           <SectionHeading
-            eyebrow="Interactive"
+            eyebrow="Interactive · NVIDIA Kimi K3"
             title="Inference console"
-            description="Ask anything about Akhil in plain language. History, tab-complete, and live LLM uplink."
+            description="Ask anything about Akhil in plain language. The floating ASK button stays with you on every page."
           />
           <InferenceConsole />
         </section>

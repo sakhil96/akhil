@@ -31,6 +31,12 @@ export function CommandPalette() {
       keywords: study.tags,
     }));
     return [
+      {
+        id: 'ask',
+        label: 'Ask Akhil',
+        href: '/#console',
+        keywords: ['chat', 'console', 'ai', 'nvidia'],
+      },
       ...sectionActions,
       ...caseStudyActions,
       { id: 'contact', label: 'Contact', href: '/#contact', keywords: ['email'] },
@@ -67,6 +73,9 @@ export function CommandPalette() {
 
   const handleSelect = (href: string) => {
     setOpen(false);
+    if (href.includes('#console')) {
+      window.dispatchEvent(new CustomEvent('console-open'));
+    }
     router.push(href);
   };
 
