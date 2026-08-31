@@ -1,6 +1,6 @@
 import { generateFallbackReply } from '@/lib/chat-fallback';
 import { sanitizeResponse } from '@/lib/humanizer';
-import { completeLlm } from '@/lib/llm';
+import { streamLlm } from '@/lib/llm';
 
 export const runtime = 'edge';
 
@@ -42,18 +42,40 @@ export async function POST(request: Request) {
           controller.enqueue(encoder.encode(sse(payload)));
         };
 
-        const llm = await completeLlm(messages.slice(-12));
-        const text = sanitizeResponse(
-          llm?.text ?? generateFallbackReply(lastMessage.content, messages.slice(0, -1)),
-        );
-        const mode = llm ? 'llm' : 'local';
-        send({ mode, provider: llm?.provider ?? 'local' });
+        let provider = 'local';
+        let assembled = '';
 
-        for (const part of tokenizeForStream(text)) {
-          send({ delta: part });
+        try {
+          for await (const event of streamLlm(messages.slice(-12))) {
+            if (event.provider) {
+              provider = event.provider;
+              send({ mode: 'llm', provider });
+            }
+            if (event.token) {
+              assembled += event.token;
+              send({ delta: event.token });
+            }
+            if (event.error) {
+              throw new Error(event.error);
+            }
+          }
+
+          if (!assembled.trim()) {
+            throw new Error('empty-llm');
+          }
+
+          send({ done: true, mode: 'llm', provider });
+        } catch {
+          const fallback = sanitizeResponse(
+            generateFallbackReply(lastMessage.content, messages.slice(0, -1)),
+          );
+          send({ mode: 'local', provider: 'local' });
+          for (const part of tokenizeForStream(fallback)) {
+            send({ delta: part });
+          }
+          send({ done: true, mode: 'local', provider: 'local' });
         }
 
-        send({ done: true, mode, provider: llm?.provider ?? 'local' });
         controller.close();
       },
     });
