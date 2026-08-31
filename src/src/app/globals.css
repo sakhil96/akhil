@@ -1001,7 +1001,6 @@ a {
 }
 
 .console-close {
-  margin-left: auto;
   background: transparent;
   border: none;
   color: var(--muted);
@@ -1040,8 +1039,8 @@ a {
 }
 
 .console-messages {
-  min-height: 12rem;
-  max-height: 22rem;
+  min-height: 14rem;
+  max-height: 26rem;
   overflow: auto;
   display: flex;
   flex-direction: column;
@@ -1056,6 +1055,77 @@ a {
   color: var(--muted);
   padding-left: 0.9rem;
   border-left: 2px solid rgba(69, 211, 255, 0.45);
+}
+
+.console-mode {
+  margin-left: auto;
+  color: var(--accent-2);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-size: 0.62rem;
+}
+
+.console-input-wrap {
+  position: relative;
+}
+
+.console-send {
+  border: 1px solid rgba(109, 92, 255, 0.4);
+  background: rgba(109, 92, 255, 0.15);
+  color: var(--text);
+  border-radius: 999px;
+  padding: 0.25rem 0.7rem;
+  font-size: 0.7rem;
+  cursor: pointer;
+}
+
+.console-send:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.console-autocomplete {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: calc(100% + 0.4rem);
+  border: 1px solid rgba(109, 92, 255, 0.35);
+  background: rgba(10, 13, 22, 0.96);
+  border-radius: 0.85rem;
+  overflow: hidden;
+  z-index: 5;
+}
+
+.console-autocomplete-item {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.55rem 0.8rem;
+  background: transparent;
+  border: none;
+  color: var(--text);
+  cursor: pointer;
+  font-size: 0.78rem;
+  text-align: left;
+}
+
+.console-autocomplete-item:hover {
+  background: rgba(109, 92, 255, 0.12);
+}
+
+.console-caret {
+  color: var(--accent-2);
+  animation: blink 1s steps(1) infinite;
+}
+
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
+.console-chip:disabled {
+  opacity: 0.5;
+  cursor: default;
 }
 
 .pipeline {
@@ -1084,7 +1154,7 @@ a {
   right: 1.25rem;
   bottom: 5.2rem;
   z-index: 45;
-  width: min(26rem, calc(100vw - 1.5rem));
+  width: min(32rem, calc(100vw - 1.5rem));
 }
 
 .chat-fab {

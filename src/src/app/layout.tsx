@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { Inter, Space_Grotesk, JetBrains_Mono } from 'next/font/google';
+import { AppChrome } from '@/components/AppChrome';
 import { CommandPalette } from '@/components/CommandPalette';
-import { InferenceConsole } from '@/components/InferenceConsole';
 import { Navbar } from '@/components/Navbar';
 import { SignalBackground } from '@/components/SignalBackground';
 import { StatusTicker } from '@/components/StatusTicker';
@@ -59,8 +59,7 @@ export default function RootLayout({
         <CommandPalette />
         <Navbar />
         <StatusTicker />
-        {children}
-        <InferenceConsole variant="dock" />
+        <AppChrome>{children}</AppChrome>
       </body>
     </html>
   );

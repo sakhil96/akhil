@@ -98,7 +98,7 @@ export default function HomePage() {
           <SectionHeading
             eyebrow="Interactive"
             title="Inference console"
-            description="Ask in plain language, or run commands like help, wins, stack, cursor."
+            description="Ask anything about Akhil in plain language. History, tab-complete, and live LLM uplink."
           />
           <InferenceConsole />
         </section>
