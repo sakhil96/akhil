@@ -20,9 +20,9 @@ export type CaseStudyPreview = {
 
 export const site = {
   meta: {
-    title: 'Akhil Adapala — Senior Engineer & Product Builder',
+    title: 'Akhil Adapala — AI Inference Control Room',
     description:
-      'Senior software engineer at PayPal building AI inference platforms. Hackathon winner, full-stack builder, product-minded engineer.',
+      'Award-winning product designer and senior software engineer building AI-first platforms with product-grade execution.',
     siteUrl: process.env.NEXT_PUBLIC_SITE_URL ?? 'https://your-domain.com',
   },
   profile: {
@@ -38,20 +38,21 @@ export const site = {
     },
   },
   hero: {
-    headline: 'Engineer who ships AI platforms with product clarity',
+    headline: 'Control Room for AI Inference + Product Thinking',
     subheadline:
-      '8+ years building full-stack systems — currently AI inference and real-time risk at PayPal. Hackathon winner, platform thinker, hands-on builder.',
+      'Award-winning product designer and senior software engineer shipping AI-first platforms with product-grade execution.',
     badges: [
       { label: 'Cursor Hackathon Winner', tone: 'accent' },
       { label: 'AI Adapt Hackathon Winner', tone: 'success' },
       { label: 'PayPal × Google Cloud Summit', tone: 'muted' },
-      { label: '8+ years experience', tone: 'warning' },
+      { label: '8+ years', tone: 'warning' },
     ] satisfies SiteBadge[],
   },
   sections: [
-    { id: 'chat', label: 'Chat' },
-    { id: 'work', label: 'Work' },
+    { id: 'system', label: 'System' },
+    { id: 'console', label: 'Console' },
     { id: 'wins', label: 'Wins' },
+    { id: 'case-studies', label: 'Case Studies' },
     { id: 'projects', label: 'Projects' },
     { id: 'experience', label: 'Experience' },
     { id: 'contact', label: 'Contact' },
@@ -354,8 +355,8 @@ export const site = {
       'Note: This was a hackathon concept/pitch, not an official PayPal product announcement.',
   },
   contact: {
-    headline: 'Let’s talk.',
+    headline: 'Let’s build the next control room.',
     subheadline:
-      'Open to roles, collaborations, and conversations about AI platforms, product engineering, and platform UX.',
+      'Open to collaborations on AI-first systems, product strategy, and platform UX.',
   },
 };

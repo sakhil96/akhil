@@ -1,25 +1,27 @@
 import type { Metadata } from 'next';
-import { Fraunces, IBM_Plex_Mono, Source_Sans_3 } from 'next/font/google';
-import { ChatBot } from '@/components/ChatBot';
+import { Inter, Space_Grotesk, JetBrains_Mono } from 'next/font/google';
+import { CommandPalette } from '@/components/CommandPalette';
+import { InferenceConsole } from '@/components/InferenceConsole';
 import { Navbar } from '@/components/Navbar';
+import { SignalBackground } from '@/components/SignalBackground';
+import { StatusTicker } from '@/components/StatusTicker';
 import { site } from '@/lib/site';
 import './globals.css';
 
-const sourceSans = Source_Sans_3({
+const inter = Inter({
   subsets: ['latin'],
   variable: '--font-body',
   display: 'swap',
 });
 
-const fraunces = Fraunces({
+const spaceGrotesk = Space_Grotesk({
   subsets: ['latin'],
   variable: '--font-display',
   display: 'swap',
 });
 
-const plexMono = IBM_Plex_Mono({
+const jetbrainsMono = JetBrains_Mono({
   subsets: ['latin'],
-  weight: ['400', '500'],
   variable: '--font-mono',
   display: 'swap',
 });
@@ -51,12 +53,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${sourceSans.variable} ${fraunces.variable} ${plexMono.variable} app-body`}>
-        <div className="ambient ambient--one" aria-hidden />
-        <div className="ambient ambient--two" aria-hidden />
+      <body className={`${inter.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable} app-body`}>
+        <div className="fixed inset-0 -z-10 grid-surface opacity-30" aria-hidden />
+        <SignalBackground />
+        <CommandPalette />
         <Navbar />
+        <StatusTicker />
         {children}
-        <ChatBot />
+        <InferenceConsole variant="dock" />
       </body>
     </html>
   );
