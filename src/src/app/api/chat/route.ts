@@ -2,7 +2,8 @@ import { generateFallbackReply } from '@/lib/chat-fallback';
 import { sanitizeResponse } from '@/lib/humanizer';
 import { streamLlm } from '@/lib/llm';
 
-export const runtime = 'edge';
+export const runtime = 'nodejs';
+export const maxDuration = 60;
 
 type ChatMessage = {
   role: 'user' | 'assistant';
