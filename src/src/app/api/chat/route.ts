@@ -1,5 +1,6 @@
-import { generateFallbackReply, getKnowledgeContext } from '@/lib/chat-fallback';
-import { HUMANIZER_SYSTEM_RULES, sanitizeResponse } from '@/lib/humanizer';
+import { generateFallbackReply } from '@/lib/chat-fallback';
+import { sanitizeResponse } from '@/lib/humanizer';
+import { completeLlm } from '@/lib/llm';
 
 export const runtime = 'edge';
 
@@ -12,47 +13,12 @@ type ChatRequest = {
   messages: ChatMessage[];
 };
 
-async function callOpenAI(messages: ChatMessage[]): Promise<string | null> {
-  const apiKey = process.env.OPENAI_API_KEY;
-  if (!apiKey) {
-    return null;
-  }
+function sse(data: unknown): string {
+  return `data: ${JSON.stringify(data)}\n\n`;
+}
 
-  const model = process.env.OPENAI_MODEL ?? 'gpt-4o-mini';
-  const knowledge = getKnowledgeContext();
-
-  const response = await fetch('https://api.openai.com/v1/chat/completions', {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      model,
-      temperature: 0.6,
-      max_tokens: 400,
-      messages: [
-        {
-          role: 'system',
-          content: `${HUMANIZER_SYSTEM_RULES}\n\n--- KNOWLEDGE BASE ---\n${knowledge}`,
-        },
-        ...messages.map((message) => ({
-          role: message.role,
-          content: message.content,
-        })),
-      ],
-    }),
-  });
-
-  if (!response.ok) {
-    return null;
-  }
-
-  const data = (await response.json()) as {
-    choices?: Array<{ message?: { content?: string } }>;
-  };
-
-  return data.choices?.[0]?.message?.content ?? null;
+function tokenizeForStream(text: string): string[] {
+  return text.split(/(\s+)/).filter(Boolean);
 }
 
 export async function POST(request: Request) {
@@ -69,14 +35,35 @@ export async function POST(request: Request) {
       return Response.json({ error: 'Last message must be from user' }, { status: 400 });
     }
 
-    const llmReply = await callOpenAI(messages.slice(-8));
-    const reply = sanitizeResponse(
-      llmReply ?? generateFallbackReply(lastMessage.content, messages.slice(0, -1)),
-    );
+    const encoder = new TextEncoder();
+    const stream = new ReadableStream({
+      async start(controller) {
+        const send = (payload: unknown) => {
+          controller.enqueue(encoder.encode(sse(payload)));
+        };
 
-    return Response.json({
-      reply,
-      mode: llmReply ? 'llm' : 'local',
+        const llm = await completeLlm(messages.slice(-12));
+        const text = sanitizeResponse(
+          llm?.text ?? generateFallbackReply(lastMessage.content, messages.slice(0, -1)),
+        );
+        const mode = llm ? 'llm' : 'local';
+        send({ mode, provider: llm?.provider ?? 'local' });
+
+        for (const part of tokenizeForStream(text)) {
+          send({ delta: part });
+        }
+
+        send({ done: true, mode, provider: llm?.provider ?? 'local' });
+        controller.close();
+      },
+    });
+
+    return new Response(stream, {
+      headers: {
+        'Content-Type': 'text/event-stream; charset=utf-8',
+        'Cache-Control': 'no-cache, no-transform',
+        Connection: 'keep-alive',
+      },
     });
   } catch {
     return Response.json({ error: 'Chat failed' }, { status: 500 });

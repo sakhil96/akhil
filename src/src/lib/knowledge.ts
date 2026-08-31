@@ -1,82 +1,111 @@
 import { site } from '@/lib/site';
 
 export function buildKnowledgeBase(): string {
-  const sections: string[] = [];
+  return `
+# Public profile: ${site.profile.name}
 
-  sections.push(`# ${site.profile.name}`);
-  sections.push(`Role: ${site.profile.role}`);
-  sections.push(`Location: ${site.profile.location}`);
-  sections.push(`Email: ${site.profile.email}`);
-  sections.push(`LinkedIn: ${site.profile.links.linkedin}`);
-  sections.push(`GitHub: ${site.profile.links.github}`);
-  sections.push('');
-  sections.push(`## Summary`);
-  sections.push(site.hero.subheadline);
-  sections.push('');
-  sections.push(`## Highlights`);
-  site.hero.badges.forEach((badge) => sections.push(`- ${badge.label}`));
-  sections.push('');
-  sections.push(`## System snapshot`);
-  site.systemSnapshot.forEach((item) => sections.push(`- ${item.label}: ${item.value}`));
-  sections.push('');
-  sections.push(`## Experience`);
-  site.experience.forEach((role) => {
-    sections.push(`### ${role.role} @ ${role.company} (${role.period})`);
-    role.highlights.forEach((highlight) => sections.push(`- ${highlight}`));
-  });
-  sections.push('');
-  sections.push(`## Skills`);
-  site.skills.forEach((group) => {
-    sections.push(`### ${group.group}`);
-    sections.push(group.items.join(', '));
-  });
-  sections.push('');
-  sections.push(`## Projects`);
-  site.projects.forEach((project) => {
-    sections.push(`### ${project.name}`);
-    sections.push(project.description);
-    sections.push(`Tags: ${project.tags.join(', ')}`);
-  });
-  sections.push('');
-  sections.push(`## Hackathon wins`);
-  site.trophies.forEach((trophy) => {
-    sections.push(`### ${trophy.title}`);
-    if (trophy.subtitle) sections.push(trophy.subtitle);
-    trophy.bullets.forEach((bullet) => sections.push(`- ${bullet}`));
-    if (trophy.href) sections.push(`Case study: ${trophy.href}`);
-  });
-  sections.push('');
-  sections.push(`## Case studies`);
-  site.caseStudies.forEach((study) => {
-    sections.push(`### ${study.title} — ${study.subtitle}`);
-    sections.push(study.summary);
-    sections.push(`Link: ${study.href}`);
-  });
-  sections.push('');
-  sections.push(`## Cursor Hackathon detail`);
-  sections.push(site.cursorCaseStudy.subtitle);
-  site.cursorCaseStudy.teams.forEach((team) => {
-    sections.push(`### ${team.name}`);
-    sections.push(`Problem: ${team.problem}`);
-    sections.push(`Approach: ${team.approach}`);
-    sections.push(`Outcome: ${team.outcome}`);
-  });
-  sections.push('');
-  sections.push(`## SmartWealth detail`);
-  sections.push(site.smartwealthCaseStudy.hero);
-  sections.push(site.smartwealthCaseStudy.uniqueAdvantage);
-  sections.push(site.smartwealthCaseStudy.disclaimer);
-  sections.push('');
-  sections.push(`## Contact`);
-  sections.push(site.contact.headline);
-  sections.push(site.contact.subheadline);
+## Identity
+- Name: ${site.profile.name}
+- Role: ${site.profile.role}
+- Location: ${site.profile.location}
+- Years of experience: 8+
+- Email: ${site.profile.email}
+- LinkedIn: ${site.profile.links.linkedin}
+- GitHub: ${site.profile.links.github}
+- Open to: collaborations on AI-first systems, product strategy, and platform UX.
 
-  return sections.join('\n');
+## Positioning
+${site.hero.headline}
+${site.hero.subheadline}
+
+Highlights: ${site.hero.badges.map((item) => item.label).join('; ')}
+
+Snapshot: ${site.systemSnapshot.map((item) => `${item.label}=${item.value}`).join('; ')}
+
+## Experience (newest first)
+${site.experience
+    .map(
+      (role) => `### ${role.role} @ ${role.company} (${role.period})
+${role.highlights.map((item) => `- ${item}`).join('\n')}`,
+    )
+    .join('\n\n')}
+
+Career path in one line: TCS (2017–2021, public-sector full-stack) → Oracle (2021–2022, enterprise marketing full-stack) → PayPal (2022–present, AI inference / real-time risk platforms).
+
+## Skills
+${site.skills.map((group) => `${group.group}: ${group.items.join(', ')}`).join('\n')}
+
+Core stack: Java, TypeScript, Spring Boot, Next.js, GKE/Kubernetes, Docker, GCP, SQL, REST APIs, MLOps/observability.
+
+## Projects
+${site.projects.map((project) => `- ${project.name}: ${project.description} (${project.tags.join(', ')})`).join('\n')}
+
+## Hackathon wins
+${site.trophies
+    .map((trophy) => {
+      const extra = trophy.subtitle ? ` — ${trophy.subtitle}` : '';
+      return `### ${trophy.title}${extra}
+${trophy.bullets.map((item) => `- ${item}`).join('\n')}
+Case study: ${trophy.href ?? 'n/a'}`;
+    })
+    .join('\n\n')}
+
+## Case studies
+${site.caseStudies.map((study) => `- ${study.title} (${study.subtitle}): ${study.summary} → ${study.href}`).join('\n')}
+
+## Cursor Hackathon
+${site.cursorCaseStudy.subtitle}
+${site.cursorCaseStudy.teams
+    .map(
+      (team) => `### ${team.name}
+Problem: ${team.problem}
+Approach: ${team.approach}
+Outcome: ${team.outcome}
+Why: ${team.why}`,
+    )
+    .join('\n\n')}
+Built-with-Cursor prompts: ${site.cursorCaseStudy.builtWithCursor.join(' | ')}
+
+## SmartWealth (AI Adapt Hackathon Winner)
+${site.smartwealthCaseStudy.hero}
+Advantage: ${site.smartwealthCaseStudy.uniqueAdvantage}
+Vision: ${site.smartwealthCaseStudy.vision}
+Journey: ${site.smartwealthCaseStudy.experienceJourney.join(' → ')}
+AI approach: ${site.smartwealthCaseStudy.aiApproach.join('; ')}
+Why PayPal: ${site.smartwealthCaseStudy.whyPayPalWins.join('; ')}
+Akhil's role: ${site.smartwealthCaseStudy.role.join('; ')}
+Next build: ${site.smartwealthCaseStudy.nextBuild.join('; ')}
+${site.smartwealthCaseStudy.disclaimer}
+
+## Talks / public
+- PayPal × Google Cloud Summit: shared high-level platform insights and cloud-native patterns for AI inference at scale.
+
+## Contact
+${site.contact.headline}
+${site.contact.subheadline}
+
+## Things that are NOT in this public profile
+Age, salary, visa status, family, education institution, phone number, home address. If asked, say that isn't listed publicly and offer email.
+`.trim();
 }
 
 export const CHAT_SUGGESTIONS = [
   'What does Akhil do at PayPal?',
-  'Tell me about his hackathon wins',
+  'Would he fit a staff platform role?',
+  'Walk me through SmartWealth',
+  'What did he win at the Cursor hackathon?',
   'What is his tech stack?',
   'How can I contact him?',
+];
+
+export const CONSOLE_COMMANDS = [
+  { command: 'help', hint: 'list commands' },
+  { command: 'clear', hint: 'wipe the session' },
+  { command: 'whoami', hint: 'quick bio' },
+  { command: 'wins', hint: 'hackathon trophies' },
+  { command: 'stack', hint: 'languages and tools' },
+  { command: 'paypal', hint: 'current role' },
+  { command: 'smartwealth', hint: 'AI Adapt case' },
+  { command: 'cursor', hint: 'hackathon case' },
+  { command: 'contact', hint: 'email and links' },
 ];
