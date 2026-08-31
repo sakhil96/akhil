@@ -20,9 +20,9 @@ export type CaseStudyPreview = {
 
 export const site = {
   meta: {
-    title: 'Akhil Adapala — AI Inference Control Room',
+    title: 'Akhil Adapala — Senior Engineer & Product Builder',
     description:
-      'Award-winning product designer and senior software engineer building AI-first platforms with product-grade execution.',
+      'Senior software engineer at PayPal building AI inference platforms. Hackathon winner, full-stack builder, product-minded engineer.',
     siteUrl: process.env.NEXT_PUBLIC_SITE_URL ?? 'https://your-domain.com',
   },
   profile: {
@@ -38,24 +38,22 @@ export const site = {
     },
   },
   hero: {
-    headline: 'Control Room for AI Inference + Product Thinking',
+    headline: 'Engineer who ships AI platforms with product clarity',
     subheadline:
-      'Award-winning product designer and senior software engineer shipping AI-first platforms with product-grade execution.',
+      '8+ years building full-stack systems — currently AI inference and real-time risk at PayPal. Hackathon winner, platform thinker, hands-on builder.',
     badges: [
       { label: 'Cursor Hackathon Winner', tone: 'accent' },
       { label: 'AI Adapt Hackathon Winner', tone: 'success' },
       { label: 'PayPal × Google Cloud Summit', tone: 'muted' },
-      { label: 'Top ___', tone: 'warning' },
+      { label: '8+ years experience', tone: 'warning' },
     ] satisfies SiteBadge[],
   },
   sections: [
-    { id: 'system', label: 'System Snapshot' },
-    { id: 'terminal', label: 'Terminal' },
-    { id: 'wins', label: 'Trophy Cabinet' },
-    { id: 'case-studies', label: 'Case Studies' },
+    { id: 'chat', label: 'Chat' },
+    { id: 'work', label: 'Work' },
+    { id: 'wins', label: 'Wins' },
     { id: 'projects', label: 'Projects' },
     { id: 'experience', label: 'Experience' },
-    { id: 'skills', label: 'Skills' },
     { id: 'contact', label: 'Contact' },
   ],
   systemSnapshot: [
@@ -356,8 +354,8 @@ export const site = {
       'Note: This was a hackathon concept/pitch, not an official PayPal product announcement.',
   },
   contact: {
-    headline: 'Let’s build the next control room.',
+    headline: 'Let’s talk.',
     subheadline:
-      'Open to collaborations on AI-first systems, product strategy, and platform UX.',
+      'Open to roles, collaborations, and conversations about AI platforms, product engineering, and platform UX.',
   },
 };

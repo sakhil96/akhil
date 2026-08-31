@@ -1,25 +1,25 @@
 import type { Metadata } from 'next';
-import { Inter, Space_Grotesk, JetBrains_Mono } from 'next/font/google';
-import { CommandPalette } from '@/components/CommandPalette';
+import { Fraunces, IBM_Plex_Mono, Source_Sans_3 } from 'next/font/google';
+import { ChatBot } from '@/components/ChatBot';
 import { Navbar } from '@/components/Navbar';
-import { SignalBackground } from '@/components/SignalBackground';
 import { site } from '@/lib/site';
 import './globals.css';
 
-const inter = Inter({
+const sourceSans = Source_Sans_3({
   subsets: ['latin'],
   variable: '--font-body',
   display: 'swap',
 });
 
-const spaceGrotesk = Space_Grotesk({
+const fraunces = Fraunces({
   subsets: ['latin'],
   variable: '--font-display',
   display: 'swap',
 });
 
-const jetbrainsMono = JetBrains_Mono({
+const plexMono = IBM_Plex_Mono({
   subsets: ['latin'],
+  weight: ['400', '500'],
   variable: '--font-mono',
   display: 'swap',
 });
@@ -51,16 +51,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${inter.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable} app-body`}
-      >
-        <div className="fixed inset-0 -z-10 grid-surface opacity-30" aria-hidden />
-        <SignalBackground />
-        <CommandPalette />
+      <body className={`${sourceSans.variable} ${fraunces.variable} ${plexMono.variable} app-body`}>
+        <div className="ambient ambient--one" aria-hidden />
+        <div className="ambient ambient--two" aria-hidden />
         <Navbar />
         {children}
+        <ChatBot />
       </body>
     </html>
   );
 }
-
