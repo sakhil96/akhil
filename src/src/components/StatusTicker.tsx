@@ -3,6 +3,8 @@
 import { site } from '@/lib/site';
 
 const TICKER = [
+  'NVIDIA KIMI K3 · LIVE UPLINK',
+  'ASK AKHIL · INFERENCE CONSOLE',
   'SIGNAL → INFERENCE → OUTCOME',
   site.profile.role,
   site.profile.location,

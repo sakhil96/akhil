@@ -14,6 +14,13 @@ const RADAR_NODES = [
   { label: 'Product', angle: 308, orbit: '-4.7rem' },
 ];
 
+const BLIPS = [
+  { x: '28%', y: '34%', delay: '0s' },
+  { x: '68%', y: '26%', delay: '0.8s' },
+  { x: '74%', y: '62%', delay: '1.4s' },
+  { x: '36%', y: '72%', delay: '2.1s' },
+];
+
 export function ControlHud() {
   const [clock, setClock] = useState('--:--:--');
 
@@ -36,6 +43,7 @@ export function ControlHud() {
 
   return (
     <aside className="control-hud scanlines" aria-label="Live control HUD">
+      <div className="hud-aurora" aria-hidden />
       <div className="hud-top">
         <span className="hud-live">
           <span className="pulse-dot" />
@@ -67,18 +75,27 @@ export function ControlHud() {
         <div className="radar-ring" />
         <div className="radar-sweep" />
         <div className="radar-core" />
-        {RADAR_NODES.map((node) => (
+        {BLIPS.map((blip) => (
           <span
-            key={node.label}
-            className="radar-node"
-            style={{
-              ['--angle' as string]: `${node.angle}deg`,
-              ['--orbit' as string]: node.orbit,
-            }}
-          >
-            {node.label}
-          </span>
+            key={`${blip.x}-${blip.y}`}
+            className="radar-blip"
+            style={{ left: blip.x, top: blip.y, animationDelay: blip.delay }}
+          />
         ))}
+        <div className="radar-orbit">
+          {RADAR_NODES.map((node) => (
+            <span
+              key={node.label}
+              className="radar-node"
+              style={{
+                ['--angle' as string]: `${node.angle}deg`,
+                ['--orbit' as string]: node.orbit,
+              }}
+            >
+              <span className="radar-node-label">{node.label}</span>
+            </span>
+          ))}
+        </div>
       </div>
     </aside>
   );

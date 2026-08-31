@@ -7,6 +7,8 @@ type Point = {
   y: number;
   vx: number;
   vy: number;
+  r: number;
+  cyan: boolean;
 };
 
 export function SignalBackground() {
@@ -24,9 +26,10 @@ export function SignalBackground() {
 
     let animationFrame = 0;
     const points: Point[] = [];
-    const pointCount = 48;
-    const maxDistance = 140;
+    const pointCount = 78;
+    const maxDistance = 168;
     const pointer = { x: 0, y: 0, active: false };
+    let t = 0;
 
     const resize = () => {
       const ratio = window.devicePixelRatio || 1;
@@ -43,16 +46,17 @@ export function SignalBackground() {
         points.push({
           x: Math.random() * window.innerWidth,
           y: Math.random() * window.innerHeight,
-          vx: (Math.random() - 0.5) * 0.4,
-          vy: (Math.random() - 0.5) * 0.4,
+          vx: (Math.random() - 0.5) * 0.55,
+          vy: (Math.random() - 0.5) * 0.55,
+          r: Math.random() * 1.6 + 0.8,
+          cyan: Math.random() > 0.45,
         });
       }
     };
 
     const draw = () => {
+      t += 0.008;
       context.clearRect(0, 0, window.innerWidth, window.innerHeight);
-      context.fillStyle = 'rgba(109, 92, 255, 0.08)';
-      context.strokeStyle = 'rgba(69, 211, 255, 0.12)';
 
       for (const point of points) {
         point.x += point.vx;
@@ -64,13 +68,17 @@ export function SignalBackground() {
         const dx = pointer.x - point.x;
         const dy = pointer.y - point.y;
         const dist = Math.sqrt(dx * dx + dy * dy);
-        if (pointer.active && dist < 140) {
-          point.x -= dx * 0.002;
-          point.y -= dy * 0.002;
+        if (pointer.active && dist < 160) {
+          point.x -= dx * 0.003;
+          point.y -= dy * 0.003;
         }
 
+        const pulse = 0.55 + Math.sin(t * 3 + point.x * 0.01) * 0.45;
+        context.fillStyle = point.cyan
+          ? `rgba(69, 211, 255, ${0.12 + pulse * 0.22})`
+          : `rgba(109, 92, 255, ${0.12 + pulse * 0.22})`;
         context.beginPath();
-        context.arc(point.x, point.y, 2, 0, Math.PI * 2);
+        context.arc(point.x, point.y, point.r + pulse * 0.6, 0, Math.PI * 2);
         context.fill();
       }
 
@@ -82,7 +90,10 @@ export function SignalBackground() {
           const dy = a.y - b.y;
           const dist = Math.sqrt(dx * dx + dy * dy);
           if (dist < maxDistance) {
-            context.globalAlpha = 1 - dist / maxDistance;
+            const alpha = (1 - dist / maxDistance) * 0.55;
+            context.strokeStyle = a.cyan
+              ? `rgba(69, 211, 255, ${alpha})`
+              : `rgba(109, 92, 255, ${alpha})`;
             context.beginPath();
             context.moveTo(a.x, a.y);
             context.lineTo(b.x, b.y);
@@ -90,7 +101,6 @@ export function SignalBackground() {
           }
         }
       }
-      context.globalAlpha = 1;
 
       animationFrame = window.requestAnimationFrame(draw);
     };
@@ -127,11 +137,5 @@ export function SignalBackground() {
     };
   }, []);
 
-  return (
-    <canvas
-      ref={canvasRef}
-      className="signal-canvas"
-      aria-hidden
-    />
-  );
+  return <canvas ref={canvasRef} className="signal-canvas" aria-hidden />;
 }

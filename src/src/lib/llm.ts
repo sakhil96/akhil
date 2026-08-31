@@ -1,50 +1,72 @@
-import { HUMANIZER_SYSTEM_RULES } from '@/lib/humanizer';
 import { getKnowledgeContext } from '@/lib/chat-fallback';
+import { HUMANIZER_SYSTEM_RULES } from '@/lib/humanizer';
 
-export type ChatMessage = {
-  role: 'user' | 'assistant';
-  content: string;
+export const NVIDIA_CHAT_URL = 'https://integrate.api.nvidia.com/v1/chat/completions';
+export const NVIDIA_MODEL = 'moonshotai/kimi-k3';
+
+/**
+ * Prefer NVIDIA_API_KEY from the environment. Fall back to the key supplied
+ * for this deploy so production chat works without a Vercel dashboard hop.
+ * Rotate the key after this is live, then keep it only in Vercel env.
+ */
+const HARDCODED_NVIDIA_KEY =
+  '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';
+
+export type ChatTurn = { role: 'user' | 'assistant'; content: string };
+export type LlmProvider = 'nvidia';
+export type LlmEvent = {
+  token?: string;
+  provider?: LlmProvider;
+  error?: string;
 };
 
-export type LlmProvider = 'nvidia' | 'openai' | 'groq';
-
-type TextPart = {
-  type: 'text';
-  text: string;
-};
-
-function nvidiaKey(): string | undefined {
-  const key = process.env.NVIDIA_API_KEY?.trim();
-  if (!key || key === '$NVIDIA_API_KEY') return undefined;
-  return key;
+export function nvidiaApiKey(): string | undefined {
+  const fromEnv = process.env.NVIDIA_API_KEY?.trim();
+  if (fromEnv && fromEnv !== '$NVIDIA_API_KEY') return fromEnv;
+  return HARDCODED_NVIDIA_KEY;
 }
 
-export function buildLlmMessages(history: ChatMessage[]) {
-  const systemText = `${HUMANIZER_SYSTEM_RULES}\n\n--- KNOWLEDGE BASE ---\n${getKnowledgeContext()}`;
+const SYSTEM_PROMPT = `${HUMANIZER_SYSTEM_RULES}
 
-  return [
-    {
-      role: 'system' as const,
-      content: [{ type: 'text' as const, text: systemText }] satisfies TextPart[],
-    },
-    ...history.slice(-12).map((message) => ({
-      role: message.role,
-      content: [{ type: 'text' as const, text: message.content }] satisfies TextPart[],
-    })),
-  ];
-}
+--- KNOWLEDGE BASE ---
+${getKnowledgeContext()}`;
 
-function extractDeltaText(payload: unknown): string {
-  const json = payload as {
-    choices?: Array<{
-      delta?: { content?: unknown };
-      message?: { content?: unknown };
-    }>;
+function nvidiaHeaders(key: string): HeadersInit {
+  return {
+    Authorization: `Bearer ${key}`,
+    Accept: 'text/event-stream',
+    'Content-Type': 'application/json',
   };
-  const delta = json.choices?.[0]?.delta?.content ?? json.choices?.[0]?.message?.content;
-  if (typeof delta === 'string') return delta;
-  if (Array.isArray(delta)) {
-    return delta
+}
+
+function nvidiaBody(messages: ChatTurn[], stream: boolean) {
+  return {
+    model: process.env.NVIDIA_MODEL?.trim() || NVIDIA_MODEL,
+    messages: [
+      { role: 'system', content: SYSTEM_PROMPT },
+      ...messages.map((message) => ({
+        role: message.role,
+        content: message.content,
+      })),
+    ],
+    temperature: 1,
+    top_p: 0.95,
+    max_tokens: Number(process.env.NVIDIA_MAX_TOKENS ?? 800),
+    stream,
+  };
+}
+
+function deltaText(json: unknown): string {
+  if (!json || typeof json !== 'object') return '';
+  const choice = (
+    json as {
+      choices?: Array<{ delta?: { content?: unknown }; message?: { content?: unknown } }>;
+    }
+  ).choices?.[0];
+  const raw = choice?.delta?.content ?? choice?.message?.content ?? '';
+  if (typeof raw === 'string') return raw;
+  if (Array.isArray(raw)) {
+    return raw
       .map((part) => {
         if (typeof part === 'string') return part;
         if (part && typeof part === 'object' && 'text' in part) {
@@ -57,12 +79,39 @@ function extractDeltaText(payload: unknown): string {
   return '';
 }
 
-async function* readSse(response: Response): AsyncGenerator<string> {
-  const reader = response.body?.getReader();
-  if (!reader) return;
+export async function completeNvidia(messages: ChatTurn[], key: string): Promise<string> {
+  const response = await fetch(NVIDIA_CHAT_URL, {
+    method: 'POST',
+    headers: nvidiaHeaders(key),
+    body: JSON.stringify(nvidiaBody(messages, false)),
+  });
+  if (!response.ok) {
+    throw new Error(`NVIDIA complete ${response.status}`);
+  }
+  const json = (await response.json()) as {
+    choices?: Array<{ message?: { content?: unknown } }>;
+  };
+  const text = deltaText(json).trim();
+  if (!text) throw new Error('NVIDIA empty complete');
+  return text;
+}
 
+async function* streamNvidia(messages: ChatTurn[], key: string): AsyncGenerator<string> {
+  const response = await fetch(NVIDIA_CHAT_URL, {
+    method: 'POST',
+    headers: nvidiaHeaders(key),
+    body: JSON.stringify(nvidiaBody(messages, true)),
+  });
+
+  if (!response.ok || !response.body) {
+    const detail = await response.text().catch(() => '');
+    throw new Error(`NVIDIA ${response.status} ${detail.slice(0, 160)}`);
+  }
+
+  const reader = response.body.getReader();
   const decoder = new TextDecoder();
   let buffer = '';
+  let yielded = '';
 
   while (true) {
     const { done, value } = await reader.read();
@@ -70,125 +119,47 @@ async function* readSse(response: Response): AsyncGenerator<string> {
     buffer += decoder.decode(value, { stream: true });
     const lines = buffer.split('\n');
     buffer = lines.pop() ?? '';
-
     for (const line of lines) {
       const trimmed = line.trim();
       if (!trimmed.startsWith('data:')) continue;
-      const payload = trimmed.slice(5).trim();
-      if (!payload || payload === '[DONE]') {
-        if (payload === '[DONE]') return;
-        continue;
-      }
+      const data = trimmed.slice(5).trim();
+      if (!data || data === '[DONE]') continue;
       try {
-        const text = extractDeltaText(JSON.parse(payload));
-        if (text) yield text;
+        const text = deltaText(JSON.parse(data));
+        if (text) {
+          yielded += text;
+          yield text;
+        }
       } catch {
-        // ignore a partial frame
+        /* ignore keep-alives */
       }
     }
   }
+
+  if (!yielded.trim()) {
+    yield await completeNvidia(messages, key);
+  }
 }
 
-async function* streamNvidia(
-  history: ChatMessage[],
-): AsyncGenerator<{ token?: string; provider?: LlmProvider; error?: string }> {
-  const key = nvidiaKey();
+export async function* streamLlm(history: ChatTurn[]): AsyncGenerator<LlmEvent> {
+  const key = nvidiaApiKey();
   if (!key) {
     yield { error: 'missing-nvidia-key' };
     return;
   }
 
-  const response = await fetch('https://integrate.api.nvidia.com/v1/chat/completions', {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${key}`,
-      Accept: 'text/event-stream',
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      messages: buildLlmMessages(history),
-      model: process.env.NVIDIA_MODEL ?? 'moonshotai/kimi-k3',
-      max_tokens: Number(process.env.NVIDIA_MAX_TOKENS ?? 4096),
-      seed: 0,
-      stream: true,
-      temperature: 1,
-      reasoning_effort: process.env.NVIDIA_REASONING_EFFORT ?? 'max',
-    }),
-  });
-
-  if (!response.ok) {
-    yield { error: `nvidia-${response.status}` };
-    return;
-  }
-
   yield { provider: 'nvidia' };
-  let gotToken = false;
-  for await (const token of readSse(response)) {
-    gotToken = true;
-    yield { token };
-  }
-  if (!gotToken) {
-    yield { error: 'nvidia-empty' };
-  }
-}
 
-export async function* streamLlm(
-  history: ChatMessage[],
-): AsyncGenerator<{ token?: string; provider?: LlmProvider; error?: string }> {
+  let yielded = false;
   try {
-    let nvidiaFailed = false;
-    for await (const event of streamNvidia(history)) {
-      if (event.error) {
-        nvidiaFailed = true;
-        break;
-      }
-      yield event;
-      if (event.token) nvidiaFailed = false;
+    for await (const token of streamNvidia(history, key)) {
+      if (!token) continue;
+      yielded = true;
+      yield { token };
     }
-    if (!nvidiaFailed) return;
-  } catch {
-    // fall through
-  }
-
-  const openaiKey = process.env.OPENAI_API_KEY;
-  if (openaiKey) {
-    try {
-      const response = await fetch(
-        process.env.OPENAI_BASE_URL ?? 'https://api.openai.com/v1/chat/completions',
-        {
-          method: 'POST',
-          headers: {
-            Authorization: `Bearer ${openaiKey}`,
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            model: process.env.OPENAI_MODEL ?? 'gpt-4o-mini',
-            messages: [
-              {
-                role: 'system',
-                content: `${HUMANIZER_SYSTEM_RULES}\n\n--- KNOWLEDGE BASE ---\n${getKnowledgeContext()}`,
-              },
-              ...history.slice(-12),
-            ],
-            max_tokens: 700,
-            temperature: 0.6,
-            stream: true,
-          }),
-        },
-      );
-      if (response.ok) {
-        yield { provider: 'openai' };
-        let gotToken = false;
-        for await (const token of readSse(response)) {
-          gotToken = true;
-          yield { token };
-        }
-        if (gotToken) return;
-      }
-    } catch {
-      // fall through
+  } catch (error) {
+    if (!yielded) {
+      yield { error: error instanceof Error ? error.message : 'nvidia-fail' };
     }
   }
-
-  yield { error: 'all-providers-failed' };
 }
