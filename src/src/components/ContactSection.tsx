@@ -5,7 +5,7 @@ import { site } from '@/lib/site';
 
 export function ContactSection() {
   return (
-    <section id="contact" className="mx-auto w-full max-w-6xl px-5 py-24 sm:px-8 lg:px-12">
+    <section id="contact" className="mx-auto w-full max-w-6xl scroll-mt-24 px-5 py-24 sm:px-8 lg:px-12">
       <Reveal>
         <p className="text-xs uppercase tracking-[0.18em] text-mute">Contact</p>
         <h2 className="mt-4 max-w-3xl font-serif text-4xl leading-[1.12] text-ink sm:text-5xl md:text-6xl">

@@ -12,7 +12,7 @@ export function WorkBento() {
   const java = site.focusTiles.find((tile) => tile.id === 'java');
 
   return (
-    <section id="work" className="mx-auto w-full max-w-6xl px-5 py-24 sm:px-8 lg:px-12">
+    <section id="work" className="mx-auto w-full max-w-6xl scroll-mt-24 px-5 py-24 sm:px-8 lg:px-12">
       <Reveal>
         <SectionHeading
           eyebrow={site.workIntro.eyebrow}

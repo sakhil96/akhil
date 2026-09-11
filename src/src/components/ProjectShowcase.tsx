@@ -6,7 +6,7 @@ import { cn } from '@/lib/utils';
 
 export function ProjectShowcase() {
   return (
-    <section id="projects" className="mx-auto w-full max-w-6xl px-5 py-24 sm:px-8 lg:px-12">
+    <section id="projects" className="mx-auto w-full max-w-6xl scroll-mt-24 px-5 py-24 sm:px-8 lg:px-12">
       <Reveal>
         <SectionHeading
           eyebrow={site.projectsIntro.eyebrow}
