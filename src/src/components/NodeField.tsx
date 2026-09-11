@@ -87,19 +87,23 @@ export function NodeField() {
         const dx = mouse.x - node.x;
         const dy = mouse.y - node.y;
         const dist = Math.hypot(dx, dy) || 0.001;
-        const pull = mouse.active ? Math.max(0, 0.22 - dist) : 0;
-        const targetX = mouse.active ? -dx * pull * 48 : 0;
-        const targetY = mouse.active ? -dy * pull * 48 : 0;
+        const pull = mouse.active ? Math.max(0, 0.42 - dist) : 0;
+        const idle = performance.now() / 1000;
+        const targetX = (mouse.active ? -dx * pull * 160 : 0) + Math.sin(idle * 0.6 + index) * 8;
+        const targetY = (mouse.active ? -dy * pull * 160 : 0) + Math.cos(idle * 0.5 + index * 1.3) * 8;
         const current = offsets.current[index];
-        current.x += (targetX - current.x) * 0.08;
-        current.y += (targetY - current.y) * 0.08;
+        current.x += (targetX - current.x) * 0.14;
+        current.y += (targetY - current.y) * 0.14;
 
         const cx = node.x * width + current.x;
         const cy = node.y * height + current.y;
         const circle = circles[index];
         if (circle) {
+          const near = mouse.active ? Math.max(0, 1 - dist / 0.4) : 0;
           circle.setAttribute('cx', String(cx));
           circle.setAttribute('cy', String(cy));
+          circle.setAttribute('r', String(node.r + near * 2.8));
+          circle.setAttribute('opacity', String(0.7 + near * 0.3));
         }
       });
 

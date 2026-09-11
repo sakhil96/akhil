@@ -28,7 +28,7 @@ export function Hero() {
           {site.hero.kicker}
         </motion.p>
         <motion.h1
-          className="mt-6 max-w-4xl font-serif text-[2.6rem] leading-[1.05] tracking-tight text-ink sm:text-6xl lg:text-[4.6rem]"
+          className="mt-6 max-w-5xl font-serif text-[2.55rem] leading-[1.08] tracking-tight text-ink sm:text-6xl lg:text-[4.35rem]"
           {...fade(0.12)}
         >
           {site.hero.headlineLead}

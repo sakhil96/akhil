@@ -45,7 +45,7 @@ export const site = {
   hero: {
     kicker: 'Bengaluru · PayPal',
     headlineLead: 'The model is the easy part.',
-    headlineEmphasis: 'I work on everything around it.',
+    headlineEmphasis: 'I work on the rest.',
     subheadline:
       'Safety evaluations, agent workflows, and Java systems that have to hold under real traffic. Eight years from public-sector backends to inference at PayPal.',
     primaryCta: 'Ask me anything',
