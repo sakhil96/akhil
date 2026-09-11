@@ -1,12 +1,12 @@
 import Link from 'next/link';
-import { Badge } from '@/components/Badge';
-import { Card } from '@/components/Card';
-import { CTAButton } from '@/components/CTAButton';
-import { SectionHeading } from '@/components/SectionHeading';
+import { Badge } from '@/components/ui/Badge';
+import { Button } from '@/components/ui/Button';
+import { GlassCard } from '@/components/ui/GlassCard';
+import { SectionHeading } from '@/components/ui/SectionHeading';
 import { site } from '@/lib/site';
 
 export const metadata = {
-  title: `${site.cursorCaseStudy.title} — Case Study`,
+  title: `${site.cursorCaseStudy.title} — Case note`,
   description: site.cursorCaseStudy.subtitle,
 };
 
@@ -14,63 +14,65 @@ export default function CursorHackathonPage() {
   const caseStudy = site.cursorCaseStudy;
 
   return (
-    <main className="container container-narrow">
-      <div className="topbar">
-        <Link href="/" className="text-link">
-          ← Back to home
+    <main className="mx-auto max-w-3xl px-5 py-16 md:px-8">
+      <div className="mb-10 flex items-center justify-between">
+        <Link href="/" className="text-sm text-mist hover:text-fog">
+          ← Home
         </Link>
-        <Badge label="Cursor Hackathon" tone="accent" />
+        <Badge label="Cursor Hackathon" />
       </div>
 
-      <section className="section-tight">
-        <h1 className="hero-title">{caseStudy.title}</h1>
-        <p className="text-muted text-small">{caseStudy.subtitle}</p>
+      <section className="space-y-4">
+        <h1 className="font-serif text-4xl leading-tight text-fog md:text-5xl">{caseStudy.title}</h1>
+        <p className="text-lg leading-relaxed text-mist">{caseStudy.subtitle}</p>
       </section>
 
-      <section className="section-tight">
+      <section className="mt-12 space-y-4">
         {caseStudy.teams.map((team) => (
-          <Card key={team.name} className="stack-md">
-            <div>
-              <h2 className="heading-md">{team.name}</h2>
-            </div>
-            <div className="grid-2">
+          <GlassCard key={team.name} className="space-y-6">
+            <h2 className="font-serif text-2xl text-fog">{team.name}</h2>
+            <div className="grid gap-5 md:grid-cols-2">
               <div>
-                <h3 className="label">Problem</h3>
-                <p className="text-muted text-small">{team.problem}</p>
+                <h3 className="text-sm font-medium text-fog">Problem</h3>
+                <p className="mt-2 text-sm leading-relaxed text-mist">{team.problem}</p>
               </div>
               <div>
-                <h3 className="label">Approach</h3>
-                <p className="text-muted text-small">{team.approach}</p>
+                <h3 className="text-sm font-medium text-fog">Approach</h3>
+                <p className="mt-2 text-sm leading-relaxed text-mist">{team.approach}</p>
               </div>
               <div>
-                <h3 className="label">Outcome</h3>
-                <p className="text-muted text-small">{team.outcome}</p>
+                <h3 className="text-sm font-medium text-fog">Outcome</h3>
+                <p className="mt-2 text-sm leading-relaxed text-mist">{team.outcome}</p>
               </div>
               <div>
-                <h3 className="label">Why it matters</h3>
-                <p className="text-muted text-small">{team.why}</p>
+                <h3 className="text-sm font-medium text-fog">Why it matters</h3>
+                <p className="mt-2 text-sm leading-relaxed text-mist">{team.why}</p>
               </div>
             </div>
-          </Card>
+          </GlassCard>
         ))}
       </section>
 
-      <section className="section-tight">
+      <section className="mt-12 space-y-4">
         <SectionHeading
           eyebrow="Built with Cursor"
-          title="Workflow prompts"
-          description="Example prompts that shaped the builds (public-safe)."
+          title="Prompts that shaped the builds"
+          description="Public-safe examples — the kind of instruction that keeps a weekend honest."
         />
-        <Card className="stack-sm text-muted text-small">
+        <GlassCard hover={false} className="space-y-3">
           {caseStudy.builtWithCursor.map((prompt) => (
-            <div key={prompt} className="panel">
+            <p key={prompt} className="rounded-2xl border border-white/8 bg-white/4 px-4 py-3 text-sm text-mist">
               {prompt}
-            </div>
+            </p>
           ))}
-        </Card>
+        </GlassCard>
       </section>
 
-      <CTAButton href="/#wins" label="Back to trophy cabinet" variant="ghost" />
+      <div className="mt-10">
+        <Button href="/#work" variant="ghost">
+          Back to work
+        </Button>
+      </div>
     </main>
   );
 }

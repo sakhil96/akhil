@@ -2,26 +2,18 @@ import Link from 'next/link';
 
 export default function NotFound() {
   return (
-    <div className="page" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1.5rem' }}>
-      <div style={{ textAlign: 'center' }}>
-        <div className="text-gradient" style={{ fontSize: '3.5rem', fontWeight: 600 }}>
-          404
-        </div>
-        <h1 className="heading-md" style={{ marginTop: '1rem' }}>
-          Page not found
-        </h1>
-        <p className="text-muted text-small" style={{ marginTop: '0.5rem' }}>
-          The signal trail ends here. Head back to the control room.
-        </p>
+    <main className="flex min-h-[70vh] items-center justify-center px-5">
+      <div className="text-center">
+        <p className="font-serif text-6xl text-gradient">404</p>
+        <h1 className="mt-4 text-2xl text-fog">This page isn’t here.</h1>
+        <p className="mt-2 text-sm text-mist">The URL may have moved with the redesign.</p>
         <Link
           href="/"
-          className="btn btn--ghost"
-          style={{ marginTop: '1.5rem' }}
+          className="mt-8 inline-flex rounded-full border border-white/12 px-5 py-2.5 text-sm text-fog hover:border-iris/50"
         >
           Return home
         </Link>
       </div>
-    </div>
+    </main>
   );
 }
-

@@ -1,6 +1,6 @@
-# AI Inference Control Room Portfolio
+# Akhil Adapala — portfolio
 
-Premium, public-safe portfolio site built with Next.js App Router, TypeScript, and Tailwind.
+Public-safe personal site. Next.js App Router, TypeScript, Tailwind CSS, Framer Motion.
 
 ## Run locally
 
@@ -13,14 +13,14 @@ Open [http://localhost:3000](http://localhost:3000).
 
 ## Edit content
 
-All editable content lives in `src/lib/site.ts`:
+All editable copy lives in `src/src/lib/site.ts`:
 
-- profile info (name, role, links)
-- hero badges
-- achievements + trophies
+- profile (name, role, Bengaluru location, links)
+- hero, experience, skills, AWS focus
+- hackathons and projects (problem / build / result)
 - case studies
-- projects, experience, skills
-- terminal command outputs
+
+Ask-me-anything lives in the global command palette (`⌘K`), backed by `/api/chat`.
 
 ## Deploy (Vercel)
 
@@ -31,4 +31,4 @@ All editable content lives in `src/lib/site.ts`:
 ## Notes
 
 - Public-safe copy only (no confidential details).
-- Minimal dependencies; no heavy UI libraries.
+- `⌘K` answers questions from the public knowledge base, with a local fallback if the live model is down.

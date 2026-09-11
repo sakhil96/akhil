@@ -19,21 +19,20 @@ export default function OpenGraphImage() {
           flexDirection: 'column',
           justifyContent: 'center',
           padding: 80,
-          background: 'linear-gradient(135deg, #07090f 0%, #101629 55%, #121b36 100%)',
-          color: '#e8ecf5',
-          fontSize: 48,
-          letterSpacing: '-0.02em',
+          background: 'linear-gradient(135deg, #05060b 0%, #12101f 55%, #0b1c1c 100%)',
+          color: '#f3efe6',
+          letterSpacing: '-0.03em',
         }}
       >
-        <div style={{ fontSize: 20, color: '#9aa5b1', marginBottom: 16 }}>
-          {site.profile.role}
+        <div style={{ display: 'flex', fontSize: 20, color: '#9b98a8', marginBottom: 16 }}>
+          {site.profile.role} · {site.profile.location}
         </div>
-        <div style={{ fontSize: 64, fontWeight: 600 }}>{site.profile.name}</div>
-        <div style={{ fontSize: 36, marginTop: 16, color: '#b9c7ff' }}>
+        <div style={{ display: 'flex', fontSize: 64, fontWeight: 600 }}>{site.profile.name}</div>
+        <div style={{ display: 'flex', fontSize: 34, marginTop: 18, color: '#c9c2ff' }}>
           {site.hero.headline}
         </div>
-        <div style={{ marginTop: 40, fontSize: 20, color: '#7c8aa0' }}>
-          Inference Control Room • AI-first products • Platform-grade execution
+        <div style={{ display: 'flex', marginTop: 40, fontSize: 20, color: '#7c8aa0' }}>
+          Model safety · Agentic workflows · Java systems
         </div>
       </div>
     ),

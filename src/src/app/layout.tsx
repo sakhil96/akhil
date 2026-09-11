@@ -1,26 +1,25 @@
 import type { Metadata } from 'next';
-import { Inter, Space_Grotesk, JetBrains_Mono } from 'next/font/google';
+import { Geist, Geist_Mono, Instrument_Serif } from 'next/font/google';
 import { AppChrome } from '@/components/AppChrome';
-import { CommandPalette } from '@/components/CommandPalette';
-import { Navbar } from '@/components/Navbar';
-import { SignalBackground } from '@/components/SignalBackground';
-import { StatusTicker } from '@/components/StatusTicker';
+import { MeshBackground } from '@/components/layout/MeshBackground';
 import { site } from '@/lib/site';
 import './globals.css';
 
-const inter = Inter({
+const geist = Geist({
   subsets: ['latin'],
   variable: '--font-body',
   display: 'swap',
 });
 
-const spaceGrotesk = Space_Grotesk({
+const instrument = Instrument_Serif({
   subsets: ['latin'],
+  weight: '400',
+  style: ['normal', 'italic'],
   variable: '--font-display',
   display: 'swap',
 });
 
-const jetbrainsMono = JetBrains_Mono({
+const geistMono = Geist_Mono({
   subsets: ['latin'],
   variable: '--font-mono',
   display: 'swap',
@@ -53,12 +52,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable} app-body`}>
-        <div className="fixed inset-0 -z-10 grid-surface opacity-30" aria-hidden />
-        <SignalBackground />
-        <CommandPalette />
-        <Navbar />
-        <StatusTicker />
+      <body
+        className={`${geist.variable} ${instrument.variable} ${geistMono.variable} min-h-screen bg-obsidian font-sans text-fog antialiased`}
+      >
+        <MeshBackground />
         <AppChrome>{children}</AppChrome>
       </body>
     </html>
