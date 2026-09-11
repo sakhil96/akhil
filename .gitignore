@@ -6,3 +6,4 @@ src/src/.next/
 .env*.local
 *.log
 .DS_Store
+data/nexora-chain.json

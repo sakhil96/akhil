@@ -31,11 +31,22 @@ export function CommandPalette() {
       keywords: study.tags,
     }));
     return [
+      {
+        id: 'nexora',
+        label: 'Nexora (NXR) token',
+        href: '/nexora',
+        keywords: ['crypto', 'token', 'ai', 'cloud', 'data center', 'nxr'],
+      },
       ...sectionActions,
       ...caseStudyActions,
       { id: 'contact', label: 'Contact', href: '/#contact', keywords: ['email'] },
     ];
   }, []);
+
+  const close = () => {
+    setOpen(false);
+    setQuery('');
+  };
 
   useEffect(() => {
     const handler = (event: KeyboardEvent) => {
@@ -44,7 +55,7 @@ export function CommandPalette() {
         setOpen(true);
       }
       if (event.key === 'Escape') {
-        setOpen(false);
+        close();
       }
     };
     const openHandler = () => setOpen(true);
@@ -56,17 +67,13 @@ export function CommandPalette() {
     };
   }, []);
 
-  useEffect(() => {
-    if (!open) setQuery('');
-  }, [open]);
-
   const filtered = actions.filter((action) => {
     const haystack = `${action.label} ${action.keywords?.join(' ') ?? ''}`.toLowerCase();
     return haystack.includes(query.toLowerCase());
   });
 
   const handleSelect = (href: string) => {
-    setOpen(false);
+    close();
     router.push(href);
   };
 
@@ -75,7 +82,7 @@ export function CommandPalette() {
   return (
     <div
       className="command-overlay"
-      onClick={() => setOpen(false)}
+      onClick={close}
     >
       <div
         className="command-dialog"
@@ -94,7 +101,7 @@ export function CommandPalette() {
         <div className="command-list">
           {filtered.length === 0 ? (
             <div className="command-empty">
-              No matches. Try "wins" or "case studies."
+              No matches. Try wins or case studies.
             </div>
           ) : (
             filtered.map((action) => (
@@ -114,7 +121,7 @@ export function CommandPalette() {
         </div>
         <button
           type="button"
-          onClick={() => setOpen(false)}
+          onClick={close}
           className="command-close"
         >
           Press Esc to close

@@ -205,6 +205,12 @@ export const site = {
   ] satisfies CaseStudyPreview[],
   projects: [
     {
+      name: 'Nexora (NXR)',
+      description:
+        'Fixed 10M-supply compute token for future AI data centers, with a live hosted ledger and region-locked inference slots.',
+      tags: ['Token', 'AI cloud', 'Data centers'],
+    },
+    {
       name: 'Inference Control Plane',
       description:
         'Low-latency orchestration for real-time risk scoring and model execution.',

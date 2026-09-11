@@ -4,6 +4,8 @@ import { site } from '@/lib/site';
 
 const TICKER = [
   'SIGNAL → INFERENCE → OUTCOME',
+  'NEXORA · 10,000,000 NXR',
+  'PHOTONIC AI DATA CENTERS',
   site.profile.role,
   site.profile.location,
   'CURSOR HACKATHON · 1ST + 2ND',
