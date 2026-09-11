@@ -48,7 +48,7 @@ export function Hero() {
           transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
           className="max-w-3xl space-y-7"
         >
-          <p className="text-[11px] font-medium uppercase tracking-[0.24em] text-aqua/80">
+          <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-aqua/80 whitespace-nowrap">
             {site.hero.kicker}
           </p>
           <div className="space-y-4">

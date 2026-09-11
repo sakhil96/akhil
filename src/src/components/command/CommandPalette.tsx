@@ -132,7 +132,7 @@ export function CommandPalette() {
     }
   };
 
-  const transcript = messages.filter((message) => message.id !== 'welcome' || message.content);
+  const transcript = messages.filter((message) => message.id !== 'welcome');
 
   return (
     <AnimatePresence>
@@ -156,7 +156,7 @@ export function CommandPalette() {
             onClick={(event) => event.stopPropagation()}
           >
             <form
-              className="border-b border-white/8 px-4 py-3"
+              className="shrink-0 border-b border-white/8 px-4 py-3"
               onSubmit={(event) => {
                 event.preventDefault();
                 onSubmit();
@@ -178,7 +178,7 @@ export function CommandPalette() {
             </form>
 
             <div className="max-h-[22rem] overflow-auto px-2 py-2">
-              {transcript.length > 1 || loading ? (
+              {transcript.length > 0 || loading ? (
                 <div className="space-y-3 px-3 py-2 text-sm">
                   {transcript.map((message) => (
                     <div
