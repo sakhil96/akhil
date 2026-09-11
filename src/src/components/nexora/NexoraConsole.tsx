@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Badge } from '@/components/Badge';
 import { Card } from '@/components/Card';
 import { NEXORA, formatNxr, reservedKwh, reservedPflops } from '@/lib/nexora/tokenomics';
@@ -100,7 +100,6 @@ function kindTone(kind: string): 'accent' | 'success' | 'warning' | 'muted' {
 
 export function NexoraConsole() {
   const [network, setNetwork] = useState<NetworkView | null>(null);
-  const [address, setAddress] = useState<string | null>(null);
   const [busy, setBusy] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -108,16 +107,32 @@ export function NexoraConsole() {
   const [sendAmount, setSendAmount] = useState('10');
   const [reserveAmount, setReserveAmount] = useState('10');
   const [region, setRegion] = useState('aurora-7');
+  const addressRef = useRef<string | null>(null);
+  const pollGen = useRef(0);
+  const busyRef = useRef<string | null>(null);
 
-  const refresh = useCallback(async (wallet = address) => {
+  const applyNetwork = (data: NetworkView) => {
+    setNetwork(data);
+    if (data.wallet?.address) {
+      addressRef.current = data.wallet.address;
+      window.localStorage.setItem(STORAGE_KEY, data.wallet.address);
+    }
+  };
+
+  const refresh = useCallback(async () => {
+    const gen = ++pollGen.current;
+    const wallet = addressRef.current;
     const query = wallet ? `?address=${encodeURIComponent(wallet)}` : '';
     const data = await readJson<NetworkView>(await fetch(`/api/nexora${query}`, { cache: 'no-store' }));
+    if (gen !== pollGen.current || busyRef.current) return;
     setNetwork(data);
-  }, [address]);
+  }, []);
 
   useEffect(() => {
     const stored = window.localStorage.getItem(STORAGE_KEY);
-    if (stored) setAddress(stored);
+    if (stored) {
+      addressRef.current = stored;
+    }
   }, []);
 
   useEffect(() => {
@@ -125,26 +140,26 @@ export function NexoraConsole() {
       setError(err instanceof Error ? err.message : 'Unable to reach the Nexora grid.');
     });
     const timer = window.setInterval(() => {
+      if (busyRef.current) return;
       refresh().catch(() => undefined);
     }, 8000);
     return () => window.clearInterval(timer);
   }, [refresh]);
 
   const run = async (label: string, work: () => Promise<NetworkView>) => {
+    busyRef.current = label;
     setBusy(label);
     setError(null);
     setMessage(null);
     try {
       const data = await work();
-      setNetwork(data);
-      if (data.wallet?.address) {
-        setAddress(data.wallet.address);
-        window.localStorage.setItem(STORAGE_KEY, data.wallet.address);
-      }
+      pollGen.current += 1;
+      applyNetwork(data);
       setMessage(`${label} confirmed at height ${data.height}.`);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Grid rejected the request.');
     } finally {
+      busyRef.current = null;
       setBusy(null);
     }
   };

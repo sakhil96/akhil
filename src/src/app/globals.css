@@ -1367,7 +1367,7 @@ a {
   }
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 1280px) {
   .nexora-region-grid {
     grid-template-columns: repeat(5, minmax(0, 1fr));
   }
