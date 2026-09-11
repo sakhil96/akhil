@@ -1,27 +1,21 @@
 import Link from 'next/link';
+import { SiteFooter } from '@/components/ContactSection';
 
 export default function NotFound() {
   return (
-    <div className="page" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1.5rem' }}>
-      <div style={{ textAlign: 'center' }}>
-        <div className="text-gradient" style={{ fontSize: '3.5rem', fontWeight: 600 }}>
-          404
-        </div>
-        <h1 className="heading-md" style={{ marginTop: '1rem' }}>
-          Page not found
-        </h1>
-        <p className="text-muted text-small" style={{ marginTop: '0.5rem' }}>
-          The signal trail ends here. Head back to the control room.
-        </p>
+    <>
+      <main className="mx-auto flex min-h-[80svh] w-full max-w-3xl flex-col justify-center px-5 pt-28 sm:px-8">
+        <p className="font-serif text-6xl text-sand">404</p>
+        <h1 className="mt-6 font-serif text-3xl text-ink">This page is not here.</h1>
+        <p className="mt-4 max-w-md text-mute">The URL does not match anything on the site. Home is the safest next step.</p>
         <Link
           href="/"
-          className="btn btn--ghost"
-          style={{ marginTop: '1.5rem' }}
+          className="mt-10 inline-flex w-fit items-center rounded-full bg-ink px-5 py-2.5 text-sm text-obsidian"
         >
-          Return home
+          Back home
         </Link>
-      </div>
-    </div>
+      </main>
+      <SiteFooter />
+    </>
   );
 }
-

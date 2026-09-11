@@ -1,5 +1,4 @@
-import Link from 'next/link';
-import { cn } from '@/lib/utils';
+import { Button } from '@/components/Button';
 
 type CTAButtonProps = {
   href: string;
@@ -10,15 +9,8 @@ type CTAButtonProps = {
 
 export function CTAButton({ href, label, variant = 'primary', className }: CTAButtonProps) {
   return (
-    <Link
-      href={href}
-      className={cn(
-        'btn',
-        variant === 'primary' ? 'btn--primary' : 'btn--ghost',
-        className,
-      )}
-    >
+    <Button href={href} variant={variant} className={className}>
       {label}
-    </Link>
+    </Button>
   );
 }

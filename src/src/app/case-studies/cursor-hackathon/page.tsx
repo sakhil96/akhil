@@ -1,12 +1,9 @@
-import Link from 'next/link';
-import { Badge } from '@/components/Badge';
-import { Card } from '@/components/Card';
-import { CTAButton } from '@/components/CTAButton';
-import { SectionHeading } from '@/components/SectionHeading';
+import { CaseStudyLayout } from '@/components/CaseStudyLayout';
+import { GlassCard } from '@/components/GlassCard';
 import { site } from '@/lib/site';
 
 export const metadata = {
-  title: `${site.cursorCaseStudy.title} — Case Study`,
+  title: `${site.cursorCaseStudy.title} — Case study`,
   description: site.cursorCaseStudy.subtitle,
 };
 
@@ -14,63 +11,39 @@ export default function CursorHackathonPage() {
   const caseStudy = site.cursorCaseStudy;
 
   return (
-    <main className="container container-narrow">
-      <div className="topbar">
-        <Link href="/" className="text-link">
-          ← Back to home
-        </Link>
-        <Badge label="Cursor Hackathon" tone="accent" />
-      </div>
+    <CaseStudyLayout kicker="Cursor Hackathon" title={caseStudy.title} subtitle={caseStudy.subtitle}>
+      {caseStudy.teams.map((team) => (
+        <GlassCard key={team.name} className="space-y-8">
+          <h2 className="font-serif text-2xl text-ink">{team.name}</h2>
+          <div className="grid gap-6 sm:grid-cols-2">
+            <Block label="Problem" text={team.problem} />
+            <Block label="Approach" text={team.approach} />
+            <Block label="Outcome" text={team.outcome} />
+            <Block label="Why it matters" text={team.why} />
+          </div>
+        </GlassCard>
+      ))}
 
-      <section className="section-tight">
-        <h1 className="hero-title">{caseStudy.title}</h1>
-        <p className="text-muted text-small">{caseStudy.subtitle}</p>
-      </section>
-
-      <section className="section-tight">
-        {caseStudy.teams.map((team) => (
-          <Card key={team.name} className="stack-md">
-            <div>
-              <h2 className="heading-md">{team.name}</h2>
-            </div>
-            <div className="grid-2">
-              <div>
-                <h3 className="label">Problem</h3>
-                <p className="text-muted text-small">{team.problem}</p>
-              </div>
-              <div>
-                <h3 className="label">Approach</h3>
-                <p className="text-muted text-small">{team.approach}</p>
-              </div>
-              <div>
-                <h3 className="label">Outcome</h3>
-                <p className="text-muted text-small">{team.outcome}</p>
-              </div>
-              <div>
-                <h3 className="label">Why it matters</h3>
-                <p className="text-muted text-small">{team.why}</p>
-              </div>
-            </div>
-          </Card>
-        ))}
-      </section>
-
-      <section className="section-tight">
-        <SectionHeading
-          eyebrow="Built with Cursor"
-          title="Workflow prompts"
-          description="Example prompts that shaped the builds (public-safe)."
-        />
-        <Card className="stack-sm text-muted text-small">
+      <section>
+        <h2 className="font-serif text-2xl text-ink">How Cursor was used</h2>
+        <p className="mt-2 text-sm text-mute">Public-safe prompts that shaped the builds.</p>
+        <div className="mt-6 space-y-3">
           {caseStudy.builtWithCursor.map((prompt) => (
-            <div key={prompt} className="panel">
+            <p key={prompt} className="glass rounded-2xl px-5 py-4 text-sm leading-relaxed text-mute">
               {prompt}
-            </div>
+            </p>
           ))}
-        </Card>
+        </div>
       </section>
+    </CaseStudyLayout>
+  );
+}
 
-      <CTAButton href="/#wins" label="Back to trophy cabinet" variant="ghost" />
-    </main>
+function Block({ label, text }: { label: string; text: string }) {
+  return (
+    <div>
+      <p className="text-[11px] uppercase tracking-[0.16em] text-sand">{label}</p>
+      <p className="mt-2 text-[15px] leading-relaxed text-mute">{text}</p>
+    </div>
   );
 }

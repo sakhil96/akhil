@@ -1,28 +1,28 @@
 import type { Metadata } from 'next';
-import { Inter, Space_Grotesk, JetBrains_Mono } from 'next/font/google';
+import { Geist, Geist_Mono, Instrument_Serif } from 'next/font/google';
 import { AppChrome } from '@/components/AppChrome';
-import { CommandPalette } from '@/components/CommandPalette';
+import { MeshBackdrop } from '@/components/MeshBackdrop';
 import { Navbar } from '@/components/Navbar';
-import { SignalBackground } from '@/components/SignalBackground';
-import { StatusTicker } from '@/components/StatusTicker';
 import { site } from '@/lib/site';
 import './globals.css';
 
-const inter = Inter({
+const geist = Geist({
   subsets: ['latin'],
-  variable: '--font-body',
+  variable: '--font-geist',
   display: 'swap',
 });
 
-const spaceGrotesk = Space_Grotesk({
+const geistMono = Geist_Mono({
   subsets: ['latin'],
-  variable: '--font-display',
+  variable: '--font-geist-mono',
   display: 'swap',
 });
 
-const jetbrainsMono = JetBrains_Mono({
+const instrument = Instrument_Serif({
   subsets: ['latin'],
-  variable: '--font-mono',
+  weight: '400',
+  style: ['normal', 'italic'],
+  variable: '--font-instrument',
   display: 'swap',
 });
 
@@ -53,12 +53,17 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable} app-body`}>
-        <div className="fixed inset-0 -z-10 grid-surface opacity-30" aria-hidden />
-        <SignalBackground />
-        <CommandPalette />
+      <body
+        className={`${geist.variable} ${geistMono.variable} ${instrument.variable} bg-obsidian font-sans text-ink antialiased`}
+      >
+        <a
+          href="#work"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-full focus:bg-ink focus:px-4 focus:py-2 focus:text-obsidian"
+        >
+          Skip to work
+        </a>
+        <MeshBackdrop />
         <Navbar />
-        <StatusTicker />
         <AppChrome>{children}</AppChrome>
       </body>
     </html>

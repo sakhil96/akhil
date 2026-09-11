@@ -17,11 +17,10 @@ export default function Icon() {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          background: 'linear-gradient(135deg, #07090f 0%, #101629 55%, #121b36 100%)',
-          color: '#b9c7ff',
+          background: '#0c0b0a',
+          color: '#c9ae8c',
           fontSize: 18,
-          fontWeight: 700,
-          letterSpacing: '-0.02em',
+          fontWeight: 600,
         }}
       >
         A

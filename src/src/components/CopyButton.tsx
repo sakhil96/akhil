@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { Button } from '@/components/Button';
 
 type CopyButtonProps = {
   value: string;
@@ -13,19 +14,15 @@ export function CopyButton({ value }: CopyButtonProps) {
     try {
       await navigator.clipboard.writeText(value);
       setCopied(true);
-      window.setTimeout(() => setCopied(false), 1500);
+      window.setTimeout(() => setCopied(false), 1600);
     } catch {
       setCopied(false);
     }
   };
 
   return (
-    <button
-      type="button"
-      onClick={handleCopy}
-      className="btn btn--ghost"
-    >
+    <Button variant="ghost" onClick={handleCopy}>
       {copied ? 'Copied' : 'Copy email'}
-    </button>
+    </Button>
   );
 }

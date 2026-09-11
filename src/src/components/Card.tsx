@@ -1,5 +1,6 @@
-import { cn } from '@/lib/utils';
 import type { ReactNode } from 'react';
+import { GlassCard } from '@/components/GlassCard';
+import { cn } from '@/lib/utils';
 
 type CardProps = {
   children: ReactNode;
@@ -7,7 +8,5 @@ type CardProps = {
 };
 
 export function Card({ children, className }: CardProps) {
-  return (
-    <div className={cn('card card-hover', className)}>{children}</div>
-  );
+  return <GlassCard className={cn('transition-colors duration-300 hover:border-sand/25', className)}>{children}</GlassCard>;
 }
