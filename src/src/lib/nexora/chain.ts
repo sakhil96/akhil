@@ -364,7 +364,7 @@ export function snapshot(state: ChainState, address?: string) {
     return {
       ...region,
       reserved,
-      utilization: Number(((reserved / region.capacity) * 100).toFixed(2)),
+      utilization: Number(((reserved / region.capacity) * 100).toFixed(4)),
     };
   });
 

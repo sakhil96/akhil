@@ -339,7 +339,7 @@ export function NexoraConsole() {
             >
               {(network?.regions ?? []).map((item) => (
                 <option key={item.id} value={item.id}>
-                  {item.name} · {item.utilization}% full
+                  {item.name} · {item.reserved === 0 ? 'idle' : `${item.reserved} reserved`}
                 </option>
               ))}
             </select>
@@ -407,7 +407,13 @@ export function NexoraConsole() {
           <Card key={item.id} className="stack-sm nexora-region">
             <div className="row-between">
               <span className="eyebrow">{item.kind}</span>
-              <span className="text-xsmall text-muted">{item.utilization}%</span>
+              <span className="text-xsmall text-muted">
+                {item.reserved === 0
+                  ? '0%'
+                  : item.utilization < 0.01
+                    ? '<0.01%'
+                    : `${item.utilization.toFixed(2)}%`}
+              </span>
             </div>
             <h3 className="heading-md">{item.name}</h3>
             <p className="text-muted text-xsmall">{item.location}</p>

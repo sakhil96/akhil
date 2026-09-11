@@ -75,10 +75,9 @@ export default function NexoraPage() {
           <div className="nexora-tokenomics">
             {VAULTS.map((vault) => (
               <Card key={vault.id} className="stack-sm">
-                <div className="row-between">
-                  <span className="eyebrow">{vault.share}</span>
-                  <span className="text-xsmall text-muted">{vault.amount.toLocaleString('en-US')} NXR</span>
-                </div>
+                <span className="eyebrow">
+                  {vault.share} · {vault.amount.toLocaleString('en-US')} NXR
+                </span>
                 <h3 className="heading-md">{vault.label}</h3>
                 <p className="text-muted text-small">{vault.purpose}</p>
                 <div className="nexora-meter" aria-hidden>
