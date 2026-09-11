@@ -1,6 +1,6 @@
-# AI Inference Control Room Portfolio
+# Akhil Adapala — portfolio
 
-Premium, public-safe portfolio site built with Next.js App Router, TypeScript, and Tailwind.
+Personal site for a senior engineer working on production ML, model safety, and Java systems.
 
 ## Run locally
 
@@ -13,22 +13,21 @@ Open [http://localhost:3000](http://localhost:3000).
 
 ## Edit content
 
-All editable content lives in `src/lib/site.ts`:
+All copy lives in `src/src/lib/site.ts`:
 
-- profile info (name, role, links)
-- hero badges
-- achievements + trophies
+- profile, location, links
+- hero
+- experience, focus tiles, skills
+- project cards (problem / build / result)
 - case studies
-- projects, experience, skills
-- terminal command outputs
+- contact
+
+The Cmd+K palette answers from that file plus `src/src/lib/knowledge.ts`.
 
 ## Deploy (Vercel)
 
-1. Push the repo to GitHub.
-2. Import it in Vercel.
-3. Deploy.
+Import the GitHub repo. Build command is `npm run build`.
 
 ## Notes
 
-- Public-safe copy only (no confidential details).
-- Minimal dependencies; no heavy UI libraries.
+Public-safe copy only. No confidential PayPal internals.

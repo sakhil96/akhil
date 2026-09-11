@@ -12,15 +12,11 @@ export function buildKnowledgeBase(): string {
 - Email: ${site.profile.email}
 - LinkedIn: ${site.profile.links.linkedin}
 - GitHub: ${site.profile.links.github}
-- Open to: collaborations on AI-first systems, product strategy, and platform UX.
+- Open to: roles between models and production — safety, agents, platforms. Bengaluru, and remote when the work is real.
 
 ## Positioning
-${site.hero.headline}
+${site.hero.headlineLead} ${site.hero.headlineEmphasis}
 ${site.hero.subheadline}
-
-Highlights: ${site.hero.badges.map((item) => item.label).join('; ')}
-
-Snapshot: ${site.systemSnapshot.map((item) => `${item.label}=${item.value}`).join('; ')}
 
 ## Experience (newest first)
 ${site.experience
@@ -30,24 +26,24 @@ ${role.highlights.map((item) => `- ${item}`).join('\n')}`,
     )
     .join('\n\n')}
 
-Career path in one line: TCS (2017–2021, public-sector full-stack) → Oracle (2021–2022, enterprise marketing full-stack) → PayPal (2022–present, AI inference / real-time risk platforms).
+Career path: TCS (2017–2021, public-sector full-stack) → Oracle (2021–2022, enterprise marketing full-stack) → PayPal (2022–present, AI inference / real-time risk).
+
+## Focus
+${site.focusTiles.map((tile) => `### ${tile.title} (${tile.kicker})\n${tile.body}`).join('\n\n')}
 
 ## Skills
 ${site.skills.map((group) => `${group.group}: ${group.items.join(', ')}`).join('\n')}
 
-Core stack: Java, TypeScript, Spring Boot, Next.js, GKE/Kubernetes, Docker, GCP, SQL, REST APIs, MLOps/observability.
+Core stack: Java, Spring Boot, TypeScript/Next.js, SQL, GCP/GKE/Kubernetes, Docker, AWS-shaped ML Engineer and GenAI Developer architectures, agent orchestration, red-teaming and trajectory evaluation.
 
-## Projects
-${site.projects.map((project) => `- ${project.name}: ${project.description} (${project.tags.join(', ')})`).join('\n')}
-
-## Hackathon wins
-${site.trophies
-    .map((trophy) => {
-      const extra = trophy.subtitle ? ` — ${trophy.subtitle}` : '';
-      return `### ${trophy.title}${extra}
-${trophy.bullets.map((item) => `- ${item}`).join('\n')}
-Case study: ${trophy.href ?? 'n/a'}`;
-    })
+## Selected work
+${site.projects
+    .map(
+      (project) => `### ${project.name} — ${project.kicker}
+Problem: ${project.problem}
+Build: ${project.build}
+Result: ${project.result}${project.href ? `\nWrite-up: ${project.href}` : ''}`,
+    )
     .join('\n\n')}
 
 ## Case studies
@@ -64,7 +60,6 @@ Outcome: ${team.outcome}
 Why: ${team.why}`,
     )
     .join('\n\n')}
-Built-with-Cursor prompts: ${site.cursorCaseStudy.builtWithCursor.join(' | ')}
 
 ## SmartWealth (AI Adapt Hackathon Winner)
 ${site.smartwealthCaseStudy.hero}
@@ -78,7 +73,7 @@ Next build: ${site.smartwealthCaseStudy.nextBuild.join('; ')}
 ${site.smartwealthCaseStudy.disclaimer}
 
 ## Talks / public
-- PayPal × Google Cloud Summit: shared high-level platform insights and cloud-native patterns for AI inference at scale.
+${site.notes.map((note) => `- ${note.title}: ${note.body}`).join('\n')}
 
 ## Contact
 ${site.contact.headline}
@@ -90,22 +85,20 @@ Age, salary, visa status, family, education institution, phone number, home addr
 }
 
 export const CHAT_SUGGESTIONS = [
-  'What does Akhil do at PayPal?',
+  'What does he do at PayPal?',
+  'How does he think about model safety?',
+  'What is Project Seal?',
+  'Walk through Student Success Intelligence',
   'Would he fit a staff platform role?',
-  'Walk me through SmartWealth',
-  'What did he win at the Cursor hackathon?',
-  'What is his tech stack?',
   'How can I contact him?',
 ];
 
 export const CONSOLE_COMMANDS = [
-  { command: 'help', hint: 'list commands' },
-  { command: 'clear', hint: 'wipe the session' },
-  { command: 'whoami', hint: 'quick bio' },
-  { command: 'wins', hint: 'hackathon trophies' },
-  { command: 'stack', hint: 'languages and tools' },
+  { command: 'help', hint: 'what you can ask' },
+  { command: 'clear', hint: 'reset this thread' },
+  { command: 'whoami', hint: 'short bio' },
   { command: 'paypal', hint: 'current role' },
-  { command: 'smartwealth', hint: 'AI Adapt case' },
-  { command: 'cursor', hint: 'hackathon case' },
+  { command: 'seal', hint: 'model safety' },
+  { command: 'stack', hint: 'languages and cloud' },
   { command: 'contact', hint: 'email and links' },
 ];

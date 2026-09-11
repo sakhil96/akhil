@@ -1,23 +1,27 @@
+import { cn } from '@/lib/utils';
+
 type SectionHeadingProps = {
   eyebrow?: string;
   title: string;
   description?: string;
-  align?: 'left' | 'center';
+  className?: string;
 };
 
 export function SectionHeading({
   eyebrow,
   title,
   description,
-  align = 'left',
+  className,
 }: SectionHeadingProps) {
-  const alignment = align === 'center' ? 'align-center' : 'align-left';
-
   return (
-    <div className={`section-heading ${alignment}`}>
-      {eyebrow ? <span className="eyebrow">{eyebrow}</span> : null}
-      <h2 className="heading-lg">{title}</h2>
-      {description ? <p className="section-desc">{description}</p> : null}
+    <div className={cn('max-w-2xl space-y-4', className)}>
+      {eyebrow ? (
+        <p className="text-xs font-medium uppercase tracking-[0.18em] text-mute">{eyebrow}</p>
+      ) : null}
+      <h2 className="font-serif text-3xl leading-[1.15] text-ink sm:text-4xl md:text-[2.6rem]">
+        {title}
+      </h2>
+      {description ? <p className="max-w-xl text-base leading-relaxed text-mute">{description}</p> : null}
     </div>
   );
 }
