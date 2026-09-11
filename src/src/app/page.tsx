@@ -67,6 +67,20 @@ export default function HomePage() {
           </div>
         </section>
 
+        <section className="section-tight">
+          <Card className="nexora-banner">
+            <div className="stack-sm">
+              <Badge label="New · Nexora (NXR)" tone="accent" />
+              <h2 className="heading-md">A 10 million supply AI data-center token, hosted live.</h2>
+              <p className="text-muted text-small">
+                Nexora is a compute-settlement credit for photonic, liquid-cooled cloud halls. Claim genesis NXR,
+                transfer, and reserve inference slots on the running grid.
+              </p>
+            </div>
+            <CTAButton href="/nexora" label="Open Nexora grid" />
+          </Card>
+        </section>
+
         <section id="system" className="section">
           <SectionHeading
             eyebrow="System Snapshot"

@@ -6,7 +6,8 @@
     "dev": "next dev src/src",
     "build": "next build src/src",
     "start": "next start src/src",
-    "lint": "eslint"
+    "lint": "eslint",
+    "test": "npx tsx --test src/src/lib/nexora/chain.test.ts"
   },
   "dependencies": {
     "clsx": "^2.1.1",
@@ -20,6 +21,7 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.1.6",
+    "tsx": "^4.23.13",
     "typescript": "^5"
   }
 }

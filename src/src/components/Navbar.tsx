@@ -15,20 +15,28 @@ export function Navbar() {
           {site.profile.name}
         </Link>
         <nav className="nav-links">
+          <Link href="/nexora" className="nav-link">
+            Nexora
+          </Link>
           {site.sections.map((section) => (
             <Link key={section.id} href={`/#${section.id}`} className="nav-link">
               {section.label}
             </Link>
           ))}
         </nav>
-        <button
-          type="button"
-          onClick={handleCommandPalette}
-          className="nav-command"
-          aria-label="Open command palette"
-        >
-          ⌘K
-        </button>
+        <div className="nav-actions">
+          <Link href="/nexora" className="nav-token">
+            NXR
+          </Link>
+          <button
+            type="button"
+            onClick={handleCommandPalette}
+            className="nav-command"
+            aria-label="Open command palette"
+          >
+            ⌘K
+          </button>
+        </div>
       </div>
     </header>
   );
