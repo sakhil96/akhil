@@ -32,8 +32,8 @@ function chunks(): Chunk[] {
   return [
     {
       id: 'bio',
-      tags: ['who', 'about', 'akhil', 'adapala', 'bio', 'summary', 'whoami', 'intro'],
-      text: `${site.profile.name} is a ${site.profile.role} based in ${site.profile.location}, with 8+ years shipping full-stack and platform systems. ${site.hero.subheadline}`,
+      tags: ['who', 'about', 'akhil', 'adapala', 'bio', 'summary', 'whoami', 'intro', 'bengaluru'],
+      text: `${site.profile.name} is a ${site.profile.role} based in ${site.profile.location}, with 8+ years shipping full-stack and ML platform systems. ${site.hero.subheadline}`,
     },
     {
       id: 'paypal',
@@ -52,17 +52,37 @@ function chunks(): Chunk[] {
     },
     {
       id: 'stack',
-      tags: ['stack', 'skill', 'java', 'typescript', 'kubernetes', 'gcp', 'next', 'spring', 'tech', 'language'],
+      tags: ['stack', 'skill', 'java', 'typescript', 'kubernetes', 'gcp', 'aws', 'next', 'spring', 'tech', 'language'],
       text: site.skills.map((group) => `${group.group}: ${group.items.join(', ')}`).join('. '),
+    },
+    {
+      id: 'aws',
+      tags: ['aws', 'genai', 'sagemaker', 'bedrock', 'ml engineer', 'cloud'],
+      text: `${site.aws.title} ${site.aws.body} Tags: ${site.aws.tags.join(', ')}.`,
+    },
+    {
+      id: 'safety',
+      tags: ['seal', 'safety', 'red', 'team', 'trajectory', 'eval', 'guardrail'],
+      text: `${site.projects[0].title}: ${site.projects[0].problem} ${site.projects[0].build} ${site.projects[0].result}`,
+    },
+    {
+      id: 'microsoft',
+      tags: ['microsoft', 'upgrad', 'student', 'success', 'agent', 'hackathon', 'education'],
+      text: `${site.trophies[0].title} (${site.trophies[0].kicker}): ${site.trophies[0].problem} ${site.trophies[0].build} ${site.trophies[0].result}`,
+    },
+    {
+      id: 'productgravity',
+      tags: ['productgravity', 'architecture', 'product', 'gravity'],
+      text: `${site.projects[1].title}: ${site.projects[1].problem} ${site.projects[1].build} ${site.projects[1].result}`,
     },
     {
       id: 'wins',
       tags: ['hackathon', 'win', 'trophy', 'award', 'cursor', 'podium'],
-      text: site.trophies.map((trophy) => `${trophy.title}: ${trophy.bullets.join(' ')}`).join(' '),
+      text: site.trophies.map((trophy) => `${trophy.title}: ${trophy.result}`).join(' '),
     },
     {
       id: 'cursor',
-      tags: ['cursor', 'busters', 'impact', 'control-room'],
+      tags: ['cursor', 'busters', 'impact'],
       text: `${site.cursorCaseStudy.subtitle} ${site.cursorCaseStudy.teams.map((team) => `${team.name}: ${team.outcome}`).join(' ')} Write-up: /case-studies/cursor-hackathon`,
     },
     {
@@ -72,8 +92,8 @@ function chunks(): Chunk[] {
     },
     {
       id: 'projects',
-      tags: ['project', 'mcp', 'observatory', 'control', 'plane', 'build'],
-      text: site.projects.map((project) => `${project.name} — ${project.description}`).join(' '),
+      tags: ['project', 'mcp', 'observatory', 'build'],
+      text: site.projects.map((project) => `${project.title} — ${project.result}`).join(' '),
     },
     {
       id: 'contact',
@@ -82,13 +102,13 @@ function chunks(): Chunk[] {
     },
     {
       id: 'open',
-      tags: ['available', 'open', 'collaborate', 'looking', 'work'],
+      tags: ['available', 'open', 'collaborate', 'looking', 'work', 'staff'],
       text: `${site.contact.headline} ${site.contact.subheadline}`,
     },
     {
       id: 'summit',
       tags: ['summit', 'google', 'talk', 'speak', 'conference'],
-      text: 'He spoke at PayPal × Google Cloud Summit on cloud-native patterns for AI inference at scale — public-safe, product-outcome focused.',
+      text: 'He spoke at PayPal × Google Cloud Summit on cloud-native patterns for running AI inference at scale — public-safe and focused on what actually ships.',
     },
   ];
 }
@@ -131,7 +151,7 @@ export function generateFallbackReply(message: string, history: ChatMessage[]): 
   const effective = followUp ? `${query} ${previous}` : query;
 
   if (has(effective, ['hello', 'hey', 'hi ']) && query.length < 22) {
-    return `Hey. Console for ${site.profile.name} — ${site.profile.role}, ${site.profile.location}. Ask about PayPal, hackathons, stack, or whether he'd fit a role.`;
+    return `Hey. This is ${site.profile.name}'s background — ${site.profile.role} in ${site.profile.location}. Ask about PayPal, Project Seal, the Microsoft hackathon, stack, or whether he'd fit a role.`;
   }
 
   if (has(effective, ['salary', 'ctc', 'compensation', 'age', 'married', 'phone', 'visa', 'degree', 'college', 'university', 'cgpa'])) {
@@ -139,12 +159,12 @@ export function generateFallbackReply(message: string, history: ChatMessage[]): 
   }
 
   if (has(effective, ['fit', 'staff', 'principal', 'hire', 'interview', 'strength', 'good for', 'right person', 'why akhil', 'screening'])) {
-    return `Honest read: he's a senior platform/product engineer, not a research scientist. Evidence for a staff-shaped platform role — 8+ years; production AI inference + real-time risk at PayPal; Java, TypeScript, GKE/Kubernetes, GCP; and he can tell a product story (Cursor 1st + 2nd, SmartWealth). Probe in interview: team size he led, and depth outside the public case studies. ${site.profile.email}`;
+    return `Honest read: he's a senior ML/platform engineer, not a research scientist. Evidence for a staff-shaped role — 8+ years; production inference and real-time risk at PayPal; Java plus TypeScript; AWS GenAI/ML Engineer and GCP/Kubernetes fluency; model safety work (red-teaming, trajectory evals / Project Seal); and he can tell a product story (Cursor 1st + 2nd, SmartWealth, upGrad × Microsoft). Probe in interview: team size he led, and depth outside the public write-ups. ${site.profile.email}`;
   }
 
   const selected = topChunks(effective, 2);
   if (selected.length === 0) {
-    return `${site.profile.name} — ${site.profile.role} in ${site.profile.location}. ${site.hero.subheadline} Try PayPal, SmartWealth, Cursor wins, stack, or "would he fit X role?".`;
+    return `${site.profile.name} — ${site.profile.role} in ${site.profile.location}. ${site.hero.subheadline} Try PayPal, Project Seal, the Microsoft hackathon, Cursor, stack, or "would he fit X role?".`;
   }
 
   const unique = selected.map((chunk) => chunk.text);

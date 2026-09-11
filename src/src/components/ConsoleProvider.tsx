@@ -37,25 +37,28 @@ const WELCOME: ConsoleMessage = {
   id: 'welcome',
   role: 'assistant',
   content:
-    'Console live — ask anything about Akhil. Natural language works. Shortcuts: help · whoami · wins · paypal · stack · contact · clear. Arrow-up recalls the last query.',
+    'Ask anything about Akhil — PayPal, Project Seal, the Microsoft hackathon, stack, or whether he’d fit a role.',
 };
 
 function followUpsFor(query: string): string[] {
   const text = query.toLowerCase();
   if (text.includes('paypal') || text.includes('role')) {
-    return ['What did he do at Oracle?', 'Would he fit a staff platform role?', 'What is his tech stack?'];
+    return ['What did he do at Oracle?', 'Would he fit a staff ML platform role?', 'What is his tech stack?'];
+  }
+  if (text.includes('seal') || text.includes('safety')) {
+    return ['What was the Microsoft hackathon work?', 'Would he fit a staff ML platform role?'];
   }
   if (text.includes('smartwealth') || text.includes('invest')) {
-    return ['What was his role on SmartWealth?', 'Any other hackathon wins?', 'How can I contact him?'];
+    return ['What was his role on SmartWealth?', 'Any other hackathon work?', 'How can I contact him?'];
   }
-  if (text.includes('cursor') || text.includes('win')) {
-    return ['Walk me through SmartWealth', 'What is his tech stack?', 'Open to work?'];
+  if (text.includes('cursor') || text.includes('win') || text.includes('microsoft')) {
+    return ['Tell me about Project Seal', 'What is his tech stack?', 'How can I contact him?'];
   }
-  if (text.includes('stack') || text.includes('skill')) {
-    return ['What does Akhil do at PayPal?', 'Would he fit a staff platform role?'];
+  if (text.includes('stack') || text.includes('skill') || text.includes('aws')) {
+    return ['What does Akhil do at PayPal?', 'Would he fit a staff ML platform role?'];
   }
   if (text.includes('contact') || text.includes('email')) {
-    return ['What does Akhil do at PayPal?', 'Any hackathon wins?'];
+    return ['What does Akhil do at PayPal?', 'Any hackathon work?'];
   }
   return CHAT_SUGGESTIONS.slice(0, 3);
 }
@@ -100,7 +103,7 @@ export function ConsoleProvider({ children }: { children: ReactNode }) {
 
     if (lower === 'help') {
       const help =
-        'Ask in plain English, or run: whoami · wins · paypal · stack · smartwealth · cursor · contact · clear\nExamples: "Would he fit a staff platform role?" · "Walk me through SmartWealth"';
+        'Ask in plain English. Useful: PayPal, Project Seal, Microsoft hackathon, stack, SmartWealth, Cursor, contact.';
       setMessages((current) =>
         current.map((item) => (item.id === assistantId ? { ...item, content: help } : item)),
       );
@@ -172,7 +175,7 @@ export function ConsoleProvider({ children }: { children: ReactNode }) {
           item.id === assistantId
             ? {
                 ...item,
-                content: 'Uplink dropped. Retry, or type help / contact.',
+                content: 'Couldn’t reach the live model. Try again, or email akhilsambasiva@gmail.com.',
               }
             : item,
         ),

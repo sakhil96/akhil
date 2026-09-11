@@ -1,5 +1,21 @@
 import { site } from '@/lib/site';
 
+function storyLines(item: {
+  title: string;
+  kicker?: string;
+  problem: string;
+  build: string;
+  result: string;
+  href?: string;
+}) {
+  const extra = item.kicker ? ` — ${item.kicker}` : '';
+  const link = item.href ? `\nWrite-up: ${item.href}` : '';
+  return `### ${item.title}${extra}
+Problem: ${item.problem}
+Build: ${item.build}
+Result: ${item.result}${link}`;
+}
+
 export function buildKnowledgeBase(): string {
   return `
 # Public profile: ${site.profile.name}
@@ -12,7 +28,7 @@ export function buildKnowledgeBase(): string {
 - Email: ${site.profile.email}
 - LinkedIn: ${site.profile.links.linkedin}
 - GitHub: ${site.profile.links.github}
-- Open to: collaborations on AI-first systems, product strategy, and platform UX.
+- Open to: staff-shaped ML platform roles, model safety, agentic workflows, Java inference systems.
 
 ## Positioning
 ${site.hero.headline}
@@ -30,25 +46,17 @@ ${role.highlights.map((item) => `- ${item}`).join('\n')}`,
     )
     .join('\n\n')}
 
-Career path in one line: TCS (2017–2021, public-sector full-stack) → Oracle (2021–2022, enterprise marketing full-stack) → PayPal (2022–present, AI inference / real-time risk platforms).
+Career path in one line: TCS (2017–2021, public-sector full-stack) → Oracle (2021–2022, enterprise marketing full-stack) → PayPal (2022–present, AI inference / real-time risk / model safety).
 
 ## Skills
 ${site.skills.map((group) => `${group.group}: ${group.items.join(', ')}`).join('\n')}
 
-Core stack: Java, TypeScript, Spring Boot, Next.js, GKE/Kubernetes, Docker, GCP, SQL, REST APIs, MLOps/observability.
+Core stack: Java, TypeScript, Spring Boot, Next.js, AWS (GenAI Developer + ML Engineer paradigms), GCP, GKE/Kubernetes, Docker, SQL, REST APIs, evals, guardrails.
 
-## Projects
-${site.projects.map((project) => `- ${project.name}: ${project.description} (${project.tags.join(', ')})`).join('\n')}
+AWS: ${site.aws.title} ${site.aws.body}
 
-## Hackathon wins
-${site.trophies
-    .map((trophy) => {
-      const extra = trophy.subtitle ? ` — ${trophy.subtitle}` : '';
-      return `### ${trophy.title}${extra}
-${trophy.bullets.map((item) => `- ${item}`).join('\n')}
-Case study: ${trophy.href ?? 'n/a'}`;
-    })
-    .join('\n\n')}
+## Selected work
+${[...site.trophies, ...site.projects].map((item) => storyLines(item)).join('\n\n')}
 
 ## Case studies
 ${site.caseStudies.map((study) => `- ${study.title} (${study.subtitle}): ${study.summary} → ${study.href}`).join('\n')}
@@ -78,7 +86,7 @@ Next build: ${site.smartwealthCaseStudy.nextBuild.join('; ')}
 ${site.smartwealthCaseStudy.disclaimer}
 
 ## Talks / public
-- PayPal × Google Cloud Summit: shared high-level platform insights and cloud-native patterns for AI inference at scale.
+- PayPal × Google Cloud Summit: shared high-level platform patterns for running AI inference at scale.
 
 ## Contact
 ${site.contact.headline}
@@ -91,9 +99,9 @@ Age, salary, visa status, family, education institution, phone number, home addr
 
 export const CHAT_SUGGESTIONS = [
   'What does Akhil do at PayPal?',
-  'Would he fit a staff platform role?',
-  'Walk me through SmartWealth',
-  'What did he win at the Cursor hackathon?',
+  'Tell me about Project Seal',
+  'What was the Microsoft hackathon work?',
+  'Would he fit a staff ML platform role?',
   'What is his tech stack?',
   'How can I contact him?',
 ];
@@ -102,10 +110,12 @@ export const CONSOLE_COMMANDS = [
   { command: 'help', hint: 'list commands' },
   { command: 'clear', hint: 'wipe the session' },
   { command: 'whoami', hint: 'quick bio' },
-  { command: 'wins', hint: 'hackathon trophies' },
+  { command: 'seal', hint: 'model safety' },
+  { command: 'microsoft', hint: 'upGrad × Microsoft' },
+  { command: 'wins', hint: 'hackathon work' },
   { command: 'stack', hint: 'languages and tools' },
   { command: 'paypal', hint: 'current role' },
   { command: 'smartwealth', hint: 'AI Adapt case' },
-  { command: 'cursor', hint: 'hackathon case' },
+  { command: 'cursor', hint: 'hackathon notes' },
   { command: 'contact', hint: 'email and links' },
 ];

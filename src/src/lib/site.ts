@@ -18,17 +18,28 @@ export type CaseStudyPreview = {
   href: string;
 };
 
+export type StoryCard = {
+  title: string;
+  kicker: string;
+  year?: string;
+  tags: string[];
+  problem: string;
+  build: string;
+  result: string;
+  href?: string;
+};
+
 export const site = {
   meta: {
-    title: 'Akhil Adapala — AI Inference Control Room',
+    title: 'Akhil Adapala — ML engineer, Bengaluru',
     description:
-      'Award-winning product designer and senior software engineer building AI-first platforms with product-grade execution.',
+      'Staff-shaped machine learning engineer in Bengaluru. Model safety, agentic workflows, and Java systems that hold up in production.',
     siteUrl: process.env.NEXT_PUBLIC_SITE_URL ?? 'https://your-domain.com',
   },
   profile: {
     name: 'Akhil Adapala',
     role: 'Senior Software Engineer, AI Tech',
-    location: 'Hyderabad, India',
+    location: 'Bengaluru, India',
     email: 'akhilsambasiva@gmail.com',
     imageUrl: '/public/profile.jpg',
     imageAlt: 'Akhil Adapala portrait',
@@ -38,43 +49,41 @@ export const site = {
     },
   },
   hero: {
-    headline: 'Control Room for AI Inference + Product Thinking',
+    kicker: 'Bengaluru · PayPal AI Tech',
+    headline: 'I build the production side of machine learning.',
     subheadline:
-      'Award-winning product designer and senior software engineer shipping AI-first platforms with product-grade execution.',
+      'Staff-shaped ML engineer: model safety, agentic workflows, and Java services that stay up when the product is live — not just when the demo is.',
     badges: [
-      { label: 'Cursor Hackathon Winner', tone: 'accent' },
-      { label: 'AI Adapt Hackathon Winner', tone: 'success' },
-      { label: 'PayPal × Google Cloud Summit', tone: 'muted' },
+      { label: 'Model safety & evals', tone: 'accent' },
+      { label: 'Agentic systems', tone: 'success' },
+      { label: 'Java at scale', tone: 'muted' },
       { label: '8+ years', tone: 'warning' },
     ] satisfies SiteBadge[],
   },
   sections: [
-    { id: 'system', label: 'System' },
-    { id: 'console', label: 'Console' },
-    { id: 'wins', label: 'Wins' },
-    { id: 'case-studies', label: 'Case Studies' },
-    { id: 'projects', label: 'Projects' },
-    { id: 'experience', label: 'Experience' },
+    { id: 'practice', label: 'Practice' },
+    { id: 'work', label: 'Work' },
+    { id: 'notes', label: 'Notes' },
     { id: 'contact', label: 'Contact' },
   ],
   systemSnapshot: [
     { label: 'Experience', value: '8+ years' },
-    { label: 'Focus', value: 'AI inference platforms' },
-    { label: 'Cloud', value: 'GCP + Kubernetes' },
-    { label: 'Languages', value: 'Java, TypeScript, SQL' },
+    { label: 'Home base', value: 'Bengaluru' },
+    { label: 'Now', value: 'PayPal AI Tech' },
+    { label: 'Languages', value: 'Java, TypeScript' },
   ],
   terminal: {
-    prompt: 'control-room',
+    prompt: 'akhil',
     commands: [
       {
         command: 'help',
         description: 'List available commands',
         output: [
-          'wins — trophy highlights',
-          'smartwealth SmartWealth case study',
-          'aiadapt Same as smartwealth',
-          'cursor — Cursor Hackathon case',
-          'projects — platform builds',
+          'wins — hackathon highlights',
+          'seal — model safety / Project Seal',
+          'smartwealth — SmartWealth case study',
+          'cursor — Cursor Hackathon notes',
+          'projects — selected builds',
           'stack — core skills',
           'contact — reach me',
         ],
@@ -83,6 +92,7 @@ export const site = {
         command: 'wins',
         description: 'Show hackathon wins',
         output: [
+          'upGrad × Microsoft Agentic AI Hackathon — Student Success Intelligence',
           'Cursor Hackathon — 1st Place (Team Busters)',
           'Cursor Hackathon — 2nd Place (Engineering Impact Platform)',
           'AI Adapt Hackathon — SmartWealth',
@@ -94,7 +104,7 @@ export const site = {
         output: [
           'SmartWealth — AI-powered investing inside PayPal',
           'Winner: AI Adapt Hackathon',
-          'Idea: money-movement signal → responsible personalization',
+          'Idea: money-movement context → responsible personalization',
           'Open: /case-studies/smartwealth',
         ],
       },
@@ -104,7 +114,7 @@ export const site = {
         output: [
           'SmartWealth — AI-powered investing inside PayPal',
           'Winner: AI Adapt Hackathon',
-          'Idea: money-movement signal → responsible personalization',
+          'Idea: money-movement context → responsible personalization',
           'Open: /case-studies/smartwealth',
         ],
       },
@@ -112,18 +122,18 @@ export const site = {
         command: 'cursor',
         description: 'Show Cursor Hackathon summary',
         output: [
-          'Built AI-first workflows that ship fast.',
-          'Two podium wins in one hackathon.',
-          'Case study: /case-studies/cursor-hackathon',
+          'Two podium finishes in one hackathon.',
+          'AI workflows that a team can actually ship.',
+          'Notes: /case-studies/cursor-hackathon',
         ],
       },
       {
         command: 'projects',
         description: 'Show selected projects',
         output: [
-          'Inference Control Plane — low-latency scoring platform',
-          'MCP Tooling — developer workflows for AI ops',
-          'Risk Signal Observatory — model health + drift insights',
+          'Project Seal — trajectory evals and red-teaming',
+          'Student Success Intelligence — upGrad × Microsoft',
+          'ProductGravity — product architecture for agentic products',
         ],
       },
       {
@@ -131,8 +141,8 @@ export const site = {
         description: 'Show core stack',
         output: [
           'Java, TypeScript, Spring Boot, Next.js',
-          'GKE, Kubernetes, Docker',
-          'MLOps pipelines, monitoring, guardrails',
+          'AWS GenAI Developer + ML Engineer shapes, GCP, Kubernetes',
+          'Evals, guardrails, agent workflows, observability',
         ],
       },
       {
@@ -148,90 +158,119 @@ export const site = {
   },
   trophies: [
     {
-      title: 'Cursor Hackathon — 1st Place (Team Busters)',
+      title: 'Student Success Intelligence',
+      kicker: 'upGrad × Microsoft Agentic AI Hackathon',
+      year: '2025',
+      tags: ['Agentic AI', 'Education', 'Microsoft'],
+      problem:
+        'Support teams see student risk too late — attendance, assignments, and help-seeking live in different tools, so intervention is manual and late.',
+      build:
+        'An agentic workflow that watches academic signals, drafts a plain-language risk picture, and suggests the next human action instead of pretending a chatbot can replace advising.',
+      result:
+        'A hackathon system that treats student success as operations: timed, inspectable, and built for the people who actually talk to students.',
+    },
+    {
+      title: 'Cursor Hackathon — 1st Place',
+      kicker: 'Team Busters',
       tags: ['AI tooling', 'Developer velocity'],
-      bullets: [
-        'Problem: teams lose time stitching AI workflows.',
-        'Built: a fast control room that unified prompt → build → deploy.',
-        'Result: shipped a crisp demo that won 1st place.',
-      ],
+      problem:
+        'Teams lost hours stitching prompts, assets, and deploy steps into something a reviewer could follow.',
+      build:
+        'A single working path from idea to demo: shared context, visible steps, and a UI that did not need a narrator standing next to it.',
+      result:
+        'A crisp build that won first place — and a reminder that speed only counts if someone else can run it.',
       href: '/case-studies/cursor-hackathon',
-      cta: 'Read case study →',
     },
     {
-      title: 'Cursor Hackathon — 2nd Place (Engineering Impact Platform)',
+      title: 'Cursor Hackathon — 2nd Place',
+      kicker: 'Engineering Impact Platform',
       tags: ['Platform analytics', 'Decision support'],
-      bullets: [
-        'Problem: impact visibility was fragmented across systems.',
-        'Built: a unified engineering cockpit for impact signals.',
-        'Result: clearer prioritization with platform-grade UX.',
-      ],
+      problem:
+        'Impact was scattered across dashboards, so prioritization turned into a slide argument.',
+      build:
+        'A cockpit that ranked engineering signals and told a story a staff engineer and a PM could both trust.',
+      result:
+        'Second place, and a cleaner way to talk about what was worth building next.',
       href: '/case-studies/cursor-hackathon',
-      cta: 'Read case study →',
     },
     {
-      title: 'AI Adapt Hackathon — Winner',
-      when: '2025',
-      subtitle: 'SmartWealth — AI-powered investing inside PayPal',
-      tags: ['Hackathon Winner', 'AI Product', 'Fintech', 'Personalization'],
-      bullets: [
-        'Presented SmartWealth: AI-powered investing inside PayPal with one-tap onboarding, $1 minimum, and ETFs/crypto/high-yield savings.',
-        'Core insight: PayPal’s money-movement signal enables responsible personalization with goals, risk context, and explainable guidance.',
-        'Strategy: use PayPal distribution and trust to move from transactions to lifelong financial relationships (hackathon concept).',
-      ],
+      title: 'SmartWealth',
+      kicker: 'AI Adapt Hackathon Winner',
+      year: '2025',
+      tags: ['Fintech', 'Personalization', 'Safety'],
+      problem:
+        'Investing products often feel bolted onto payments — generic portfolios, weak context, little explanation.',
+      build:
+        'A one-tap concept inside PayPal: $1 minimum, goals and risk in the open, ETFs, crypto, and high-yield savings with suitability checks.',
+      result:
+        'Winning pitch for turning everyday money movement into guidance people can actually inspect. Hackathon concept, not a product launch.',
       href: '/case-studies/smartwealth',
-      cta: 'Read case study →',
     },
-  ],
+  ] satisfies StoryCard[],
   caseStudies: [
     {
       slug: 'cursor-hackathon',
       title: 'Cursor Hackathon',
-      subtitle: '1st & 2nd Place',
+      subtitle: '1st & 2nd place',
       summary:
-        'Two winning builds that turn AI workflows into platform-grade execution.',
+        'Two builds in one weekend: an AI workflow a team can run, and an impact cockpit that made priorities visible.',
       tags: ['AI tooling', 'Platform UX', 'Hackathon'],
       href: '/case-studies/cursor-hackathon',
     },
     {
       slug: 'smartwealth',
       title: 'SmartWealth',
-      subtitle: 'AI Adapt Hackathon Winner',
+      subtitle: 'AI Adapt Hackathon winner',
       summary:
-        'A one-tap investing experience leveraging the world’s richest money-movement signal.',
-      tags: ['Fintech', 'AI product', 'Vision'],
+        'A one-tap investing concept that uses PayPal’s money-movement context without hiding the tradeoffs.',
+      tags: ['Fintech', 'AI product', 'Trust'],
       href: '/case-studies/smartwealth',
     },
   ] satisfies CaseStudyPreview[],
   projects: [
     {
-      name: 'Inference Control Plane',
-      description:
-        'Low-latency orchestration for real-time risk scoring and model execution.',
-      tags: ['Platform', 'Reliability', 'Latency'],
+      title: 'Project Seal',
+      kicker: 'Model safety',
+      tags: ['Red-teaming', 'Trajectory evals', 'Guardrails'],
+      problem:
+        'Single-turn scores miss how a model behaves across a session — the failures that show up in production, not in a golden prompt set.',
+      build:
+        'Trajectory-level evaluations and red-teaming: follow the path, not just the last answer, and surface where an agent drifts, overreaches, or goes quiet.',
+      result:
+        'A clearer picture of session-level risk, so safety work can land in the same review as latency and cost.',
     },
     {
-      name: 'MCP Tooling',
-      description:
-        'Developer workflows that standardize onboarding, config validation, and deployments.',
-      tags: ['Tooling', 'Ops', 'Automation'],
+      title: 'ProductGravity',
+      kicker: 'Product architecture',
+      tags: ['Agents', 'Platform', 'Design'],
+      problem:
+        'Agentic product ideas often die between a slide and a backlog — capabilities, data, and runtime never get named.',
+      build:
+        'Architecture that maps who the agent is for, which tools it may touch, where memory lives, and which Java services actually own the work.',
+      result:
+        'Designs a product team can hand to engineering without a second translation layer.',
     },
     {
-      name: 'Signal Observatory',
-      description:
-        'Monitoring and guardrails for model health, drift, and incident response.',
-      tags: ['MLOps', 'Observability', 'Safety'],
+      title: 'Inference platform work',
+      kicker: 'PayPal · public-safe',
+      tags: ['Java', 'Latency', 'Reliability'],
+      problem:
+        'Real-time risk scoring only counts if model execution is boringly reliable under traffic.',
+      build:
+        'Java services, cloud-native rollouts, and platform tooling so teams can onboard models without inventing a new path each time.',
+      result:
+        'Inference that product and risk teams can reason about — latency, shadow traffic, and safe promotion included.',
     },
-  ],
+  ] satisfies StoryCard[],
   experience: [
     {
       role: 'Senior Software Engineer, AI Tech',
       company: 'PayPal',
       period: 'Dec 2022 — Present',
       highlights: [
-        'Build AI inference platforms for real-time risk scoring at scale.',
-        'Drive cloud-native migration with audit/shadow validation and safe rollouts.',
-        'Deliver platform tooling that speeds up model onboarding.',
+        'Own production AI systems for real-time risk scoring — Java services, rollout discipline, and the unglamorous reliability work.',
+        'Work on model safety in public-safe terms: red-teaming and trajectory evaluations in the spirit of Project Seal, not just prompt-level scores.',
+        'Help teams move models onto cloud-native paths with audit, shadow traffic, and promotions that can be rolled back.',
       ],
     },
     {
@@ -240,7 +279,7 @@ export const site = {
       period: 'Nov 2021 — Nov 2022',
       highlights: [
         'Shipped full-stack features for enterprise marketing workflows.',
-        'Built reliable Java services and responsive web modules.',
+        'Java services and responsive UI — the same end-to-end habit I still use on ML platforms.',
       ],
     },
     {
@@ -248,115 +287,116 @@ export const site = {
       company: 'TCS',
       period: 'Dec 2017 — Oct 2021',
       highlights: [
-        'Delivered public-sector workflows with secure, role-based UX.',
-        'Owned end-to-end delivery across backend and UI modules.',
+        'Public-sector workflows with role-based access and delivery you could defend in a review.',
+        'Owned backend and UI modules instead of throwing work over a wall.',
       ],
     },
   ],
   skills: [
     {
-      group: 'Product + Design',
-      items: ['Product strategy', 'System thinking', 'UX flows', 'Prototyping'],
+      group: 'Model safety',
+      items: ['Red-teaming', 'Trajectory evals', 'Guardrails', 'Observability'],
+    },
+    {
+      group: 'Agentic AI',
+      items: ['Tool-using agents', 'Workflow design', 'MCP tooling', 'Eval harnesses'],
+    },
+    {
+      group: 'Java backends',
+      items: ['Java', 'Spring Boot', 'Hibernate/JPA', 'REST APIs', 'SQL', 'MySQL'],
+    },
+    {
+      group: 'Cloud & ML platforms',
+      items: ['AWS GenAI Developer', 'AWS ML Engineer', 'GCP', 'GKE', 'Kubernetes', 'Docker'],
+    },
+    {
+      group: 'Product',
+      items: ['Product architecture', 'System design', 'UX flows', 'Prototyping'],
     },
     {
       group: 'Frontend',
-      items: ['Next.js', 'TypeScript', 'JavaScript', 'HTML/CSS', 'Oracle JET', 'jQuery'],
-    },
-    {
-      group: 'Backend + MLOps',
-      items: [
-        'Java',
-        'Spring Boot',
-        'Hibernate/JPA',
-        'REST APIs',
-        'SQL',
-        'MySQL',
-        'ActiveMQ',
-        'Nginx',
-        'Gradle',
-        'Git',
-      ],
-    },
-    {
-      group: 'Cloud + DevOps',
-      items: ['GCP', 'GKE', 'Kubernetes', 'Docker', 'Observability'],
+      items: ['Next.js', 'TypeScript', 'JavaScript', 'HTML/CSS'],
     },
   ],
+  aws: {
+    title: 'AWS-shaped AI, not slideware',
+    body: 'I design against the AWS GenAI Developer and ML Engineer shapes: retrieval and inference, evaluation loops, and the Java services underneath. Useful on AWS, and equally useful when the runtime is GCP and Kubernetes.',
+    tags: ['GenAI Developer', 'ML Engineer', 'Inference', 'Evals'],
+  },
   cursorCaseStudy: {
-    title: 'Cursor Hackathon — 1st & 2nd Place',
+    title: 'Cursor Hackathon — 1st & 2nd place',
     subtitle:
-      'Two award-winning builds that made AI workflows feel effortless and scalable.',
+      'Two weekend builds that had to work without a narrator: an AI workflow, and an impact cockpit.',
     teams: [
       {
-        name: 'Team Busters — 1st Place',
+        name: 'Team Busters — 1st place',
         problem:
-          'AI workflows were fragmented and slow to operationalize across teams.',
+          'AI workflows were fragmented. Reviewers could not tell what happened between a prompt and a demo.',
         approach:
-          'Designed a control-room experience that stitched prompts, assets, and deployment signals into one flow.',
+          'Collapsed the path into one experience: shared context, visible steps, and a UI that stood on its own.',
         outcome:
-          'Delivered a cohesive demo that showcased speed, clarity, and platform readiness.',
-        why: 'Great AI products need a command center—this proved the model.',
+          'First place. The demo was fast, but more importantly it was legible.',
+        why: 'Speed is cheap. A path someone else can rerun is the actual product.',
       },
       {
-        name: 'Engineering Impact Platform — 2nd Place',
+        name: 'Engineering Impact Platform — 2nd place',
         problem:
-          'Engineering impact data was scattered, making prioritization unclear.',
+          'Engineering impact lived in too many tools, so “what matters” became a meeting.',
         approach:
-          'Built a unified cockpit for impact signals with clear ranking and storytelling.',
+          'One cockpit for ranking signals and telling the story behind them.',
         outcome:
-          'Improved decision velocity with a single source of truth UX.',
-        why: 'Teams move faster when impact is visible and trusted.',
+          'Second place, and a shared picture of priority instead of a pile of charts.',
+        why: 'Teams move when impact is visible enough to argue about honestly.',
       },
     ],
     builtWithCursor: [
-      'Generate an architecture that maps signals → inference → outcome.',
-      'Draft a clean UX flow for command-center navigation.',
-      'Refine copy to be executive-level and launch-ready.',
+      'Sketch an architecture a staff engineer would defend in a design review.',
+      'Draft a UX flow that does not need a walkthrough voiceover.',
+      'Tighten copy until a hiring manager can repeat it.',
     ],
   },
   smartwealthCaseStudy: {
     title: 'SmartWealth',
-    subtitle: 'AI-powered investing inside PayPal (AI Adapt Hackathon Winner)',
-    hero:
-      'SmartWealth turns PayPal’s money-movement signal into a trusted, one-tap investing experience that feels as simple as paying someone. It reframes PayPal from a payments utility into a lifelong wealth partner.',
+    subtitle: 'AI-powered investing inside PayPal (AI Adapt Hackathon winner)',
+    hero: 'SmartWealth turns everyday PayPal money movement into a one-tap investing experience that feels as ordinary as sending cash. The bet: PayPal already has trust and context — the product should use both without talking down to people.',
     uniqueAdvantage:
-      'PayPal sees how money moves across everyday life, creating a signal rich enough to personalize goals, risk, and timing. That context enables safer guidance than generic portfolios, at public scale. It is an advantage new fintechs cannot easily replicate.',
+      'PayPal sees how money moves through ordinary life. That context can personalize goals, risk, and timing more honestly than a generic portfolio quiz. It is also an advantage most new fintechs cannot copy.',
     vision:
-      'AI-powered investing inside PayPal—frictionless, intuitive, and accessible. One tap. $1 minimum. ETFs, crypto, and high-yield savings inside the platform people already trust.',
+      'Investing inside PayPal — one tap, $1 minimum, ETFs, crypto, and high-yield savings, with the tradeoffs in plain language.',
     experienceJourney: [
-      'Set goal: choose a target and timeline with a $1 minimum.',
-      'Confirm risk: calibrate comfort with clear tradeoffs.',
-      'Get portfolio: receive a diversified mix with guardrails.',
-      'Ongoing guidance: explainable nudges and steady rebalancing.',
+      'Set a goal and a timeline, starting at $1.',
+      'Confirm risk with tradeoffs you can actually read.',
+      'Get a diversified mix with guardrails, not a black box.',
+      'Keep getting explainable nudges and rebalancing over time.',
     ],
     aiApproach: [
-      'Goal-based profiles that adapt to life context.',
-      'Risk calibration with diversification guardrails.',
+      'Goal profiles that notice life context instead of a one-time quiz.',
+      'Risk calibration with diversification constraints.',
       'Suitability checks and disclosure-aware nudges.',
-      'Explainability with plain-language rationale.',
+      'Plain-language rationale next to every recommendation.',
       'Monitoring for drift and unsafe guidance.',
     ],
     whyPayPalWins: [
-      '435M+ users (approx.) → built-in distribution with near-zero CAC.',
-      '$1.6T+ annual payment volume (approx.) → unmatched behavioral signal.',
-      '25 years of global trust → a foundation no new fintech can recreate.',
+      '435M+ users (approx.) — distribution without a new acquisition machine.',
+      '$1.6T+ annual payment volume (approx.) — behavioral context most brokers never see.',
+      '25 years of global trust — the hard part of a money product, already paid for.',
     ],
     role: [
       'Owned the pitch narrative and product framing.',
-      'Designed the system and UX concept end-to-end.',
-      'Crafted the demo story for executive clarity.',
+      'Designed the system and UX concept end to end.',
+      'Wrote the demo story so an executive could follow it in one sitting.',
     ],
     nextBuild: [
-      'MVP: goal-based onboarding, risk slider, starter ETF bundles.',
-      'Safety/compliance: suitability checks, disclosures, guardrails.',
-      'Experimentation: activation, funded rate, retention, trust signals.',
+      'MVP: goal onboarding, risk slider, starter ETF bundles.',
+      'Safety: suitability checks, disclosures, hard guardrails.',
+      'Measure activation, funded rate, retention, and whether people trust the explanations.',
     ],
     disclaimer:
-      'Note: This was a hackathon concept/pitch, not an official PayPal product announcement.',
+      'This was a hackathon concept and pitch, not an official PayPal product announcement.',
   },
   contact: {
-    headline: 'Let’s build the next control room.',
+    headline: 'If the work is agents, evals, or inference that has to stay up — write me.',
     subheadline:
-      'Open to collaborations on AI-first systems, product strategy, and platform UX.',
+      'Happy to talk about staff-shaped ML platform roles, model safety, and product architecture that engineering can actually run.',
   },
 };

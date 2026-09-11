@@ -1,127 +1,118 @@
 import Link from 'next/link';
-import { Card } from '@/components/Card';
-import { SectionHeading } from '@/components/SectionHeading';
+import { GlassCard } from '@/components/ui/GlassCard';
+import { SectionHeading } from '@/components/ui/SectionHeading';
 import { site } from '@/lib/site';
 
 export const metadata = {
-  title: 'SmartWealth — AI Adapt Hackathon Winner',
+  title: 'SmartWealth — AI Adapt Hackathon winner',
   description:
-    'SmartWealth is a hackathon concept for AI-powered investing inside PayPal, turning money-movement signal into responsible personalization.',
+    'SmartWealth is a hackathon concept for AI-powered investing inside PayPal, using money-movement context without hiding the tradeoffs.',
 };
 
 export default function SmartWealthPage() {
   const caseStudy = site.smartwealthCaseStudy;
 
   return (
-    <main className="container container-narrow">
-      <div className="topbar">
-        <Link href="/" className="text-link">
-          ← Back to home
+    <main className="mx-auto max-w-3xl px-5 py-16 md:px-8">
+      <div className="mb-10 flex items-center justify-between text-sm text-mist">
+        <Link href="/" className="hover:text-fog">
+          ← Home
         </Link>
-        <Link href="/resume.pdf" target="_blank" rel="noreferrer" className="text-link">
-          Resume ↗
+        <Link href="/#work" className="hover:text-fog">
+          Work
         </Link>
       </div>
 
-      <section className="section-tight">
-        <h1 className="hero-title">{caseStudy.title}</h1>
-        <p className="text-muted text-small">{caseStudy.subtitle}</p>
-        <p className="hero-body">{caseStudy.hero}</p>
+      <section className="space-y-4">
+        <p className="text-[11px] uppercase tracking-[0.2em] text-aqua/80">Case note</p>
+        <h1 className="font-serif text-4xl leading-tight text-fog md:text-5xl">{caseStudy.title}</h1>
+        <p className="text-mist">{caseStudy.subtitle}</p>
+        <p className="text-lg leading-relaxed text-mist">{caseStudy.hero}</p>
       </section>
 
-      <section className="section-tight">
+      <section className="mt-12 space-y-4">
         <SectionHeading title="The unique advantage" />
-        <Card className="text-muted text-small">
-          <p>{caseStudy.uniqueAdvantage}</p>
-        </Card>
+        <GlassCard hover={false}>
+          <p className="text-sm leading-relaxed text-mist">{caseStudy.uniqueAdvantage}</p>
+        </GlassCard>
       </section>
 
-      <section className="section-tight">
+      <section className="mt-10 space-y-4">
         <SectionHeading title="The vision" />
-        <Card className="text-muted text-small">
-          <p>{caseStudy.vision}</p>
-        </Card>
+        <GlassCard hover={false}>
+          <p className="text-sm leading-relaxed text-mist">{caseStudy.vision}</p>
+        </GlassCard>
       </section>
 
-      <section className="section-tight">
+      <section className="mt-10 space-y-4">
         <SectionHeading title="Experience design" />
-        <Card className="stack-sm text-muted text-small">
+        <GlassCard hover={false} className="space-y-3">
           {caseStudy.experienceJourney.map((step) => (
-            <div key={step} className="bullet-item">
-              <span className="bullet-dot" />
-              <span>{step}</span>
-            </div>
+            <p key={step} className="border-l border-iris/40 pl-4 text-sm text-mist">
+              {step}
+            </p>
           ))}
-        </Card>
+        </GlassCard>
       </section>
 
-      <section className="section-tight">
-        <SectionHeading title="AI approach (high level)" />
-        <Card className="stack-sm text-muted text-small">
+      <section className="mt-10 space-y-4">
+        <SectionHeading title="AI approach" />
+        <GlassCard hover={false} className="space-y-3">
           {caseStudy.aiApproach.map((item) => (
-            <div key={item} className="bullet-item">
-              <span className="bullet-dot" />
-              <span>{item}</span>
-            </div>
+            <p key={item} className="border-l border-iris/40 pl-4 text-sm text-mist">
+              {item}
+            </p>
           ))}
-        </Card>
+        </GlassCard>
       </section>
 
-      <section className="section-tight">
+      <section className="mt-10 space-y-4">
         <SectionHeading title="Why this wins for PayPal" />
-        <Card className="stack-sm text-muted text-small">
+        <GlassCard hover={false} className="space-y-3">
           {caseStudy.whyPayPalWins.map((item) => (
-            <div key={item} className="bullet-item">
-              <span className="bullet-dot" />
-              <span>{item}</span>
-            </div>
+            <p key={item} className="border-l border-iris/40 pl-4 text-sm text-mist">
+              {item}
+            </p>
           ))}
-          <p className="text-xsmall text-muted">
-            *Stats are approximate / from public reporting.*
-          </p>
-        </Card>
+          <p className="text-xs text-mist/70">Stats are approximate, from public reporting.</p>
+        </GlassCard>
       </section>
 
-      <section className="section-tight">
+      <section className="mt-10 space-y-4">
         <SectionHeading title="My role" />
-        <Card className="stack-sm text-muted text-small">
+        <GlassCard hover={false} className="space-y-3">
           {caseStudy.role.map((item) => (
-            <div key={item} className="bullet-item">
-              <span className="bullet-dot" />
-              <span>{item}</span>
-            </div>
+            <p key={item} className="border-l border-iris/40 pl-4 text-sm text-mist">
+              {item}
+            </p>
           ))}
-        </Card>
+        </GlassCard>
       </section>
 
-      <section className="section-tight">
+      <section className="mt-10 space-y-4">
         <SectionHeading title="What I’d build next" />
-        <Card className="stack-sm text-muted text-small">
+        <GlassCard hover={false} className="space-y-3">
           {caseStudy.nextBuild.map((item) => (
-            <div key={item} className="bullet-item">
-              <span className="bullet-dot" />
-              <span>{item}</span>
-            </div>
+            <p key={item} className="border-l border-iris/40 pl-4 text-sm text-mist">
+              {item}
+            </p>
           ))}
-        </Card>
+        </GlassCard>
       </section>
 
-      <Card className="card-warning text-small">
+      <GlassCard hover={false} className="mt-10 border-amber-400/20 bg-amber-400/8 text-sm text-amber-100">
         {caseStudy.disclaimer}
-      </Card>
+      </GlassCard>
 
-      <Card className="row-between">
+      <GlassCard className="mt-6 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <div>
-          <p className="heading-md">Want the 60-second version?</p>
-          <p className="text-muted text-small">Jump back to the wins recap.</p>
+          <p className="font-serif text-2xl text-fog">Want the short version?</p>
+          <p className="text-sm text-mist">Back to the work grid.</p>
         </div>
-        <Link
-          href="/hashtag#wins"
-          className="btn-link"
-        >
-          Back to wins →
+        <Link href="/#work" className="text-sm text-fog hover:text-white">
+          Back to work →
         </Link>
-      </Card>
+      </GlassCard>
     </main>
   );
 }
